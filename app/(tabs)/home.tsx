@@ -6,7 +6,7 @@ import { signOut } from 'firebase/auth'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const Home = () => {
+const Homee = () => {
 
   const {user} = useAuth();
   console.log("user", user)
@@ -25,6 +25,6 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Homee
 
 const styles = StyleSheet.create({})
