@@ -10,14 +10,17 @@ type Option = {
     question: string;
     options: Option[];
     onVote: (optionId: string) => void;
+    active: number;
+    onBack: () => void;
   };
 
-  const sendSurvey = () => {
-    // ovde treba logika za upis podataka u bazu
-    console.log("Add pressed!");
-  }
+const sendSurvey = (onBack: () => void) => {
+  console.log("Add pressed!");
+  // ovde logika za API
+  onBack(); // vrati se nazad posle slanja
+};
 
-  const SurveyCard = ({ question, options, onVote }: SurveyCardProps) => {
+  const SurveyCard = ({ question, options, onVote, active, onBack }: SurveyCardProps) => {
   return (
     <View style={styles.card}>
       <Text style={styles.question}>{question}</Text>
@@ -30,9 +33,14 @@ type Option = {
           <Text style={styles.optionText}>{option.text}</Text>
         </TouchableOpacity>
       ))}  
-      <TouchableOpacity style={styles.button} onPress={sendSurvey}>
-  <Text style={styles.buttonText}>Pošalji</Text>
-</TouchableOpacity> 
+      <View style={styles.buttonRow}>
+        <TouchableOpacity style={styles.button} onPress={() => sendSurvey(onBack)}>
+          <Text style={styles.buttonText}>Pošalji</Text>
+        </TouchableOpacity> 
+        <TouchableOpacity style={styles.button} onPress={onBack}>
+          <Text style={styles.buttonText}>Nazad</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -42,6 +50,7 @@ export default SurveyCard
 const styles = StyleSheet.create({
     card: {
         backgroundColor: "#fff",
+        width: 350,
         borderRadius: 12,
         padding: 16,
         marginVertical: 8,
@@ -65,8 +74,6 @@ const styles = StyleSheet.create({
     button: {
       backgroundColor: "#050505ff",
       marginTop: 15,
-      marginLeft: 100,
-      marginRight: 100,
       paddingVertical: 12,
       paddingHorizontal: 24,
       borderRadius: 8,
@@ -77,4 +84,10 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: "600",
     },
+    buttonRow: {
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      marginTop: 15,
+      marginBottom: 15,
+    }
 })

@@ -16,6 +16,15 @@ const Surveys = () => {
       ],
     },
     {
+      question: "Koliko ste zadovoljni grejanjem u zgradi zgradi2?",
+      options: [
+        { id: "1", text: "Vrlo zadovoljni" },
+        { id: "2", text: "Zadovoljni" },
+        { id: "3", text: "Nezadovoljni" },
+        { id: "4", text: "Veoma nezadovoljni" },
+      ],
+    },
+    {
       question: "Koliko ste zadovoljni uslugama?",
       options: [
         { id: "1", text: "Vrlo zadovoljni" },
@@ -33,6 +42,69 @@ const Surveys = () => {
         { id: "4", text: "Veoma nezadovoljni" },
       ],
     },
+    {
+      question: "Bla?",
+      options: [
+        { id: "1", text: "Vrlo zadovoljni" },
+        { id: "2", text: "Zadovoljni" },
+        { id: "3", text: "Nezadovoljni" },
+        { id: "4", text: "Veoma nezadovoljni" },
+      ],
+    },
+    {
+      question: "Blabla?",
+      options: [
+        { id: "1", text: "Vrlo zadovoljni" },
+        { id: "2", text: "Zadovoljni" },
+        { id: "3", text: "Nezadovoljni" },
+        { id: "4", text: "Veoma nezadovoljni" },
+      ],
+    },
+    {
+      question: "Blabla2?",
+      options: [
+        { id: "1", text: "Vrlo zadovoljni" },
+        { id: "2", text: "Zadovoljni" },
+        { id: "3", text: "Nezadovoljni" },
+        { id: "4", text: "Veoma nezadovoljni" },
+      ],
+    },
+    {
+      question: "Blabla3?",
+      options: [
+        { id: "1", text: "Vrlo zadovoljni" },
+        { id: "2", text: "Zadovoljni" },
+        { id: "3", text: "Nezadovoljni" },
+        { id: "4", text: "Veoma nezadovoljni" },
+      ],
+    },
+    {
+      question: "Blabla4?",
+      options: [
+        { id: "1", text: "Vrlo zadovoljni" },
+        { id: "2", text: "Zadovoljni" },
+        { id: "3", text: "Nezadovoljni" },
+        { id: "4", text: "Veoma nezadovoljni" },
+      ],
+    },
+    {
+      question: "Blabla5?",
+      options: [
+        { id: "1", text: "Vrlo zadovoljni" },
+        { id: "2", text: "Zadovoljni" },
+        { id: "3", text: "Nezadovoljni" },
+        { id: "4", text: "Veoma nezadovoljni" },
+      ],
+    },
+    {
+      question: "Blabla6?",
+      options: [
+        { id: "1", text: "Vrlo zadovoljni" },
+        { id: "2", text: "Zadovoljni" },
+        { id: "3", text: "Nezadovoljni" },
+        { id: "4", text: "Veoma nezadovoljni" },
+      ],
+    },
   ];
 
   const handleVote = (optionId: string) => {
@@ -42,39 +114,33 @@ const Surveys = () => {
   };
 
   return (
+  activeSurvey === null ? (
+    // LISTA PITANJA SA SCROLL-om
     <ScrollView style={styles.container}>
-      
-
-      {/* Ako nema aktivnog survey-a → prikaz liste pitanja */}
-      {activeSurvey === null ? (
-        <View>
-          <Text style={styles.titleText}>Aktuelne ankete</Text>
-          {surveys.map((s, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.questionButton}
-              onPress={() => setActiveSurvey(index)}
-            >
-              <Text style={styles.questionText}>{s.question}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      ) : (
-        <View style={styles.card}>
-          <Text style={styles.titleText}>Anketa</Text>
-          {/* Prikazi odabrani SurveyCard */}
-          <SurveyCard
-            question={surveys[activeSurvey].question}
-            options={surveys[activeSurvey].options}
-            onVote={handleVote}
-          />
-          <TouchableOpacity style={styles.button} onPress={() => setActiveSurvey(null)}>
-                      <Text style={styles.buttonText}>Nazad</Text>
-                    </TouchableOpacity> 
-        </View>
-      )}
+      <Text style={styles.titleText}>Aktuelne ankete</Text>
+      {surveys.map((s, index) => (
+        <TouchableOpacity
+          key={index}
+          style={styles.questionButton}
+          onPress={() => setActiveSurvey(index)}
+        >
+          <Text style={styles.questionText}>{s.question}</Text>
+        </TouchableOpacity>
+      ))}
     </ScrollView>
-  );
+  ) : (
+    <View style={styles.centeredCardContainer}>
+      
+      <SurveyCard 
+        question={surveys[activeSurvey].question}
+        options={surveys[activeSurvey].options}
+        onVote={handleVote}
+        active={activeSurvey}
+        onBack={() => setActiveSurvey(null)}
+      />
+    </View>
+  )
+);
 };
 
 export default Surveys;
@@ -118,9 +184,10 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: "600",
     },
-    card: {
+    centeredCardContainer: {
       flex: 1,
-      justifyContent: "center", 
-      alignItems: "center",
+      justifyContent: "center", // vertikalno centrirano
+      alignItems: "center",     // horizontalno centrirano
+      backgroundColor: "#f9f9f9"
     }
 });
