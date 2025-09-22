@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
                     if(data?.role == "admin"){
                         router.replace("/(admin)/adminmain");
                     }else{
-                        router.replace("/(tabs)/home");
+                        router.replace("/(tabs)/tips");
                     }
                 }
             }
