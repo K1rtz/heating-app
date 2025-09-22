@@ -3,7 +3,7 @@ import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "rea
 import SurveyCard from "../../components/SurveyCard";
 
 const Surveys = () => {
-  const [activeSurvey, setActiveSurvey] = useState<number | null>(null);
+  const [expandedSurvey, setExpandedSurvey] = useState<number | null>(null);
 
   const surveys = [
     {
@@ -114,33 +114,35 @@ const Surveys = () => {
   };
 
   return (
-  activeSurvey === null ? (
-    // LISTA PITANJA SA SCROLL-om
     <ScrollView style={styles.container}>
       <Text style={styles.titleText}>Aktuelne ankete</Text>
       {surveys.map((s, index) => (
-        <TouchableOpacity
-          key={index}
-          style={styles.questionButton}
-          onPress={() => setActiveSurvey(index)}
-        >
-          <Text style={styles.questionText}>{s.question}</Text>
-        </TouchableOpacity>
+        <View key={index}>
+          {/* Pitanje */}
+          <TouchableOpacity
+            style={styles.questionButton}
+            onPress={() =>
+              setExpandedSurvey(expandedSurvey === index ? null : index)
+            }
+          >
+            <Text style={styles.questionText}>{s.question}</Text>
+          </TouchableOpacity>
+
+          {/* Ako je kliknuto baš ovo pitanje → prikaži SurveyCard ispod */}
+          {expandedSurvey === index && (
+            <View style={styles.centeredCardContainer}>
+            <SurveyCard
+              options={s.options}
+              onVote={handleVote}
+              active={index}
+              onBack={() => setExpandedSurvey(null)}
+            />
+            </View>
+          )}
+        </View>
       ))}
     </ScrollView>
-  ) : (
-    <View style={styles.centeredCardContainer}>
-      
-      <SurveyCard 
-        question={surveys[activeSurvey].question}
-        options={surveys[activeSurvey].options}
-        onVote={handleVote}
-        active={activeSurvey}
-        onBack={() => setActiveSurvey(null)}
-      />
-    </View>
-  )
-);
+  );
 };
 
 export default Surveys;
@@ -162,28 +164,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 8,
-    marginBottom: 12,
+    marginBottom: 10,
     elevation: 2,
   },
   questionText: {
     fontSize: 18,
     fontWeight: "600",
   },
-  button: {
-      backgroundColor: "#050505ff",
-      marginTop: 15,
-      marginLeft: 100,
-      marginRight: 100,
-      paddingVertical: 12,
-      paddingHorizontal: 24,
-      borderRadius: 8,
-      alignItems: "center",
-    },
-    buttonText: {
-      color: "#fff",
-      fontSize: 16,
-      fontWeight: "600",
-    },
     centeredCardContainer: {
       flex: 1,
       justifyContent: "center", // vertikalno centrirano

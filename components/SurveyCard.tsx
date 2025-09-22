@@ -7,7 +7,6 @@ type Option = {
   };
   
   type SurveyCardProps = {
-    question: string;
     options: Option[];
     onVote: (optionId: string) => void;
     active: number;
@@ -20,10 +19,9 @@ const sendSurvey = (onBack: () => void) => {
   onBack(); // vrati se nazad posle slanja
 };
 
-  const SurveyCard = ({ question, options, onVote, active, onBack }: SurveyCardProps) => {
+  const SurveyCard = ({ options, onVote, active, onBack }: SurveyCardProps) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.question}>{question}</Text>
       {options.map((option) => (
         <TouchableOpacity
           key={option.id}
@@ -52,9 +50,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         width: 350,
         borderRadius: 12,
+        marginBottom: 20,
         padding: 16,
         marginVertical: 8,
-        marginTop: 20,
         elevation: 3,
       },
     question: {
