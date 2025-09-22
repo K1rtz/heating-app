@@ -1,5 +1,9 @@
-import React from 'react';
+import { getAuth } from "firebase/auth";
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+const auth = getAuth();
+const user = auth.currentUser;
 
 type Option = {
     id: string;
@@ -7,32 +11,48 @@ type Option = {
   };
   
   type SurveyCardProps = {
+    question: string;
     options: Option[];
     onVote: (optionId: string) => void;
-    active: number;
     onBack: () => void;
   };
 
-const sendSurvey = (onBack: () => void) => {
-  console.log("Add pressed!");
-  // ovde logika za API
-  onBack(); // vrati se nazad posle slanja
+const sendSurvey = (selected: string | null, onBack: () => void) => {
+  // Ovo treba da se upise u bazu!
+  // Jos uvek nemamo ankete u bazi podataka! idAnkete nije relevantan
+  console.log("Posalji podatke u bazu! Podaci: idKorisnika ", user?.uid, ", idAnkete ", 12, ", ocena ", selected);
+  onBack(); 
 };
 
-  const SurveyCard = ({ options, onVote, active, onBack }: SurveyCardProps) => {
+  const SurveyCard = ({ question, options, onVote, onBack }: SurveyCardProps) => {
+
+    const [selected, setSelected] = useState<string | null>(null);
+
+    const handleSelect = (id: string) => {
+    setSelected(id);
+    onVote(id);
+  };
   return (
     <View style={styles.card}>
+      <TouchableOpacity>
+                  <Text style={styles.question}>{question}</Text>
+                </TouchableOpacity>
       {options.map((option) => (
         <TouchableOpacity
           key={option.id}
-          style={styles.optionButton}
-          onPress={() => onVote(option.id)}
+          style={[
+            styles.optionButton,
+            selected === option.id && styles.selectedOption, // ako je kliknuto
+          ]}
+          onPress={() => handleSelect(option.id)}
         >
-          <Text style={styles.optionText}>{option.text}</Text>
+          <Text style={styles.optionText}>
+            {option.text}
+          </Text>
         </TouchableOpacity>
       ))}  
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.button} onPress={() => sendSurvey(onBack)}>
+        <TouchableOpacity style={styles.button} onPress={() => sendSurvey(selected, onBack)}>
           <Text style={styles.buttonText}>Pošalji</Text>
         </TouchableOpacity> 
         <TouchableOpacity style={styles.button} onPress={onBack}>
@@ -57,8 +77,8 @@ const styles = StyleSheet.create({
       },
     question: {
       fontSize: 18,
-      fontWeight: "bold",
-      marginBottom: 12,
+      fontWeight: "600",
+      marginBottom: 10,
     },
     optionButton: {
       backgroundColor: "#f0f0f0",
@@ -87,5 +107,11 @@ const styles = StyleSheet.create({
       justifyContent: "space-evenly",
       marginTop: 15,
       marginBottom: 15,
+    },
+    selectedOption: {
+      //backgroundColor: "black",
+      borderColor: "black",
+      borderWidth: 2,
+      borderRadius: 5,
     }
 })

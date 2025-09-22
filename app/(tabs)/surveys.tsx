@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import SurveyCard from "../../components/SurveyCard";
 
 const Surveys = () => {
@@ -109,8 +109,6 @@ const Surveys = () => {
 
   const handleVote = (optionId: string) => {
     console.log("Glasao za:", optionId);
-    Alert.alert("Hvala!", `Glasali ste za opciju ${optionId}`);
-    // ovde možeš poslati glas na backend / API
   };
 
   return (
@@ -119,6 +117,7 @@ const Surveys = () => {
       {surveys.map((s, index) => (
         <View key={index}>
           {/* Pitanje */}
+          {expandedSurvey != index && (
           <TouchableOpacity
             style={styles.questionButton}
             onPress={() =>
@@ -127,14 +126,15 @@ const Surveys = () => {
           >
             <Text style={styles.questionText}>{s.question}</Text>
           </TouchableOpacity>
+          )}
 
           {/* Ako je kliknuto baš ovo pitanje → prikaži SurveyCard ispod */}
           {expandedSurvey === index && (
             <View style={styles.centeredCardContainer}>
             <SurveyCard
+              question={s.question}
               options={s.options}
               onVote={handleVote}
-              active={index}
               onBack={() => setExpandedSurvey(null)}
             />
             </View>
