@@ -1,6 +1,5 @@
 import { SurveyCard as Sc } from "@/components/cardtest";
 import ScreenWrapper from "@/components/ScreenWrapper";
-import { colors } from "@/constants/theme";
 import { useAuth } from "@/contexts/authContext";
 import { getAuth } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, query, Timestamp, where } from "firebase/firestore";

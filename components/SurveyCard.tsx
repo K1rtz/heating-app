@@ -67,7 +67,6 @@ export default SurveyCard
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: "#fff",
         width: 350,
         borderRadius: 12,
         marginBottom: 20,
