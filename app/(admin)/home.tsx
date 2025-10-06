@@ -1,11 +1,10 @@
-import { SurveyCard as Sc } from "@/components/cardtest";
-import ScreenWrapper from "@/components/ScreenWrapper";
-import { colors } from "@/constants/theme";
-import { useAuth } from "@/contexts/authContext";
-import { getAuth } from 'firebase/auth';
-import { collection, doc, getDoc, getDocs, query, Timestamp, where } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import ScreenWrapper from '@/components/ScreenWrapper';
+import { colors } from '@/constants/theme';
+import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
+import * as Icons from 'phosphor-react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AdminSurveyCard } from '../../components/AdminSurveyCard'; // Adjust path as needed
 import { firestore as db } from '../../config/firebase';
 
 interface Survey {
@@ -13,27 +12,15 @@ interface Survey {
   surveyName: string;
   question: string;
   options: { id: string; text: string }[];
-  hasAnswered: boolean;
+  optionsCount: Record<string, number>;
+  totalVotes: number;
 }
 
-
-
-const Surveys = () => {
+const Home = () => {
   const [surveys, setSurveys] = useState<Survey[]>([]);
   const [loading, setLoading] = useState(true);
-  const auth = getAuth();
-  const userId = auth.currentUser?.uid;
-
-  const {user} = useAuth();
 
   const fetchActiveSurveys = async () => {
-    if (!userId) {
-      Alert.alert('Greška', 'Niste prijavljeni!');
-      setLoading(false);
-      return;
-    }
-    console.log(userId, user?.uid)
-
     try {
       setLoading(true);
       const now = new Date();
@@ -47,31 +34,21 @@ const Surveys = () => {
       const fetchedSurveys: Survey[] = [];
       for (const docSnapshot of querySnapshot.docs) {
         const surveyData = docSnapshot.data();
-        // Check if user has responded
-        const responseRef = doc(db, `surveys/${docSnapshot.id}/responses`, userId);
-        const responseSnap = await getDoc(responseRef);
-        
-        // Debug: Log responseSnap to verify
-        console.log(`Survey ${docSnapshot.id} response for user ${userId}:`, {
-          exists: responseSnap.exists(),
-          data: responseSnap.data(),
-          path: responseRef.path,
-        });
-
-        const hasAnswered = responseSnap.exists(); // Use exists() for compatibility
+        const optionsCount = surveyData.optionsCount || {};
+        const totalVotes = Object.values(optionsCount).reduce((sum: number, count: number) => sum + count, 0);
 
         fetchedSurveys.push({
           id: docSnapshot.id,
           surveyName: surveyData.title,
           question: surveyData.question,
           options: surveyData.options,
-          hasAnswered,
+          optionsCount,
+          totalVotes,
         });
       }
       setSurveys(fetchedSurveys);
     } catch (err: any) {
       Alert.alert('Greška', 'Nije moguće učitati ankete: ' + err.message);
-      console.error('Error fetching surveys:', err);
     } finally {
       setLoading(false);
     }
@@ -79,12 +56,15 @@ const Surveys = () => {
 
   useEffect(() => {
     fetchActiveSurveys();
-  }, [userId]); // Add userId as dependency to refetch if user changes
+  }, []);
 
   return (
     <ScreenWrapper>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Aktuelne Ankete</Text>
+        <Text style={styles.headerText}>Aktivne Ankete</Text>
+        <TouchableOpacity style={styles.iconRight} onPress={(fetchActiveSurveys)}>
+          <Icons.ArrowsClockwiseIcon size={24} color="black" />
+        </TouchableOpacity>
       </View>
       <ScrollView style={styles.container}>
         {loading ? (
@@ -93,14 +73,14 @@ const Surveys = () => {
           <Text style={styles.noSurveysText}>Nema aktivnih anketa</Text>
         ) : (
           surveys.map(survey => (
-            <Sc
+            <AdminSurveyCard
               key={survey.id}
               surveyId={survey.id}
               surveyName={survey.surveyName}
               question={survey.question}
-              options={survey.options.map(opt => opt.text)}
-              hasAnswered={survey.hasAnswered}
-              onSubmit = {fetchActiveSurveys}
+              options={survey.options}
+              optionsCount={survey.optionsCount}
+              totalVotes={survey.totalVotes}
             />
           ))
         )}
@@ -109,22 +89,27 @@ const Surveys = () => {
   );
 };
 
-export default Surveys;
+export default Home;
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    backgroundColor: '#4e73df',
-    borderBottomWidth: 2,
-    borderBottomColor: '#283c77ff',
-    borderBottomRightRadius: 25,
+  height: 70,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: colors.primary,
+  borderBottomWidth: 2,
+  borderBottomColor: colors.primaryShadow,
+  position: 'relative',
   },
   headerText: {
     fontSize: 20,
     fontWeight: '600',
+  },
+  iconRight: {
+    position: "absolute",
+    right: 16,  // odmakne ikonu od desne ivice
+    top: "50%",
+    transform: [{ translateY: -12 }], // vertikalno centriranje
   },
   container: {
     flex: 1,

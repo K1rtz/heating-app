@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 const _layout = () => {
   return (
     <Tabs screenOptions={{headerShown: false}}
-      initialRouteName='tips'
+      initialRouteName='surveys'
       tabBar = {(props)=> <CustomTabs {...props} />}
     >
       <Tabs.Screen name="home" />

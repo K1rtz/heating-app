@@ -2,7 +2,7 @@ import { auth, firestore } from "@/config/firebase";
 import { AuthContextType, UserType } from "@/types";
 import { useRouter } from "expo-router";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -22,17 +22,24 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
                 if(docSnap.exists()){
                     const data = docSnap.data();
 
-                    const userData: UserType ={
+                    const userData: any ={ //userType
                         uid: firebaseUser.uid,
                         email: firebaseUser.email,
                         name: data?.name || null,
-                        role: data?.role || "customer"
+                        role: data?.role || "customer",
+                        firstName: data?.firstName,
+                        lastName: data?.lastName,
+                        district: data?.district,
+                        address: data?.address,
+                        floor: data?.floor,
                     }
                     setUser(userData);
                     if(data?.role == "admin"){
-                        router.replace("/(admin)/adminmain");
+                        // router.replace("/(admin)/createSurvey");
+                                                router.replace("/(admin)/home");
+
                     }else{
-                        router.replace("/(tabs)/tips");
+                        router.replace("/(tabs)/surveys");
                     }
                 }
             }
@@ -79,6 +86,12 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
                 email,
                 uid: response?.user?.uid,
                 role: "customer",
+                firstName: "",
+                lastName: "",
+                district: "",
+                address: "",
+                floor: "",
+                createdAt: Timestamp.fromDate(new Date())
             });
             return {success: true}
 

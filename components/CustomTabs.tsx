@@ -4,47 +4,101 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import * as Icons from 'phosphor-react-native';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function CustomTabs({ state, descriptors, navigation } : BottomTabBarProps) {
 //   const { colors } = useTheme();
 //   const { buildHref } = useLinkBuilder();
 
     const tabberIcons: any ={
+        surveyHistory: (isFocused: boolean)=>(
+        <Icons.NoteIcon
+            size={verticalScale(30)}
+            weight={isFocused? 'fill' : 'regular'}
+            color={isFocused? colors.primary : colors.neutral400}
+        />
+        ),
+        createSurvey: (isFocused: boolean)=>(
+        <Icons.NotePencilIcon
+            size={verticalScale(30)}
+            weight={isFocused? 'fill' : 'regular'}
+            color={isFocused? colors.primary : colors.neutral400}
+        />
+        ),
         home: (isFocused: boolean)=>(
-            <Icons.HouseIcon
-                size={verticalScale(30)}
-                weight={isFocused? 'fill' : 'regular'}
-                color={isFocused? colors.primary : colors.neutral400}
+            <MaterialCommunityIcons
+                name="home"
+                size={30}
+                color={isFocused ? colors.primary : colors.neutral400}
             />
         ),
+        // home: (isFocused: boolean)=>(
+        //     <Icons.HouseIcon
+        //         size={verticalScale(30)}
+        //         weight={isFocused? 'fill' : 'regular'}
+        //         color={isFocused? colors.primary : colors.neutral400}
+        //     />
+        // ),
+
         profile: (isFocused: boolean)=>(
-            <Icons.UserCircleIcon
-                size={verticalScale(30)}
-                weight={isFocused? 'fill' : 'regular'}
-                color={isFocused? colors.primary : colors.neutral400}
+            <MaterialCommunityIcons
+                name="account-circle-outline"
+                size={32}
+                color={isFocused ? '#f6c23e' : colors.neutral400}
             />
         ),
+        // profile: (isFocused: boolean)=>(
+        //     <Icons.UserCircleIcon
+        //         size={verticalScale(30)}
+        //         weight={isFocused? 'fill' : 'regular'}
+        //         color={isFocused? colors.primary : colors.neutral400}
+        //     />
+        // ),
         report: (isFocused: boolean)=>(
-            <Icons.WarningCircleIcon
-                size={verticalScale(30)}
-                weight={isFocused? 'fill' : 'regular'}
-                color={isFocused? colors.primary : colors.neutral400}
+            <MaterialCommunityIcons
+                name="exclamation-thick"
+                size={32}
+                color={isFocused ? '#e74a3b' : colors.neutral400}
             />
         ),
+        // report: (isFocused: boolean)=>(
+        //     <Icons.WarningCircleIcon
+        //         size={verticalScale(30)}
+        //         weight={isFocused? 'fill' : 'regular'}
+        //         color={isFocused? colors.primary : colors.neutral400}
+        //     />
+        // ),
+
+
         surveys: (isFocused: boolean)=>(
-            <Icons.NotepadIcon
-                size={verticalScale(30)}
-                weight={isFocused? 'fill' : 'regular'}
-                color={isFocused? colors.primary : colors.neutral400}
+            <MaterialCommunityIcons
+                name="notebook-edit"
+                size={32}
+                color={isFocused ? '#4e73df' : colors.neutral400}
             />
         ),
+        // surveys: (isFocused: boolean)=>(
+        //     <Icons.NotepadIcon
+        //         size={verticalScale(30)}
+        //         weight={isFocused? 'fill' : 'regular'}
+        //         color={isFocused? colors.primary : colors.neutral400}
+        //     />
+        // ),
+
         tips: (isFocused: boolean)=>(
-            <Icons.BooksIcon
-                size={verticalScale(30)}
-                weight={isFocused? 'fill' : 'regular'}
-                color={isFocused? colors.primary : colors.neutral400}
+            <MaterialCommunityIcons
+                name="lightbulb-on-outline"
+                size={32}
+                color={isFocused ? '#1cc88a' : colors.neutral400}
             />
         )
+        // tips: (isFocused: boolean)=>(
+        //     <Icons.BooksIcon
+        //         size={verticalScale(30)}
+        //         weight={isFocused? 'fill' : 'regular'}
+        //         color={isFocused? colors.primary : colors.neutral400}
+        //     />
+        // )
 
         }
 

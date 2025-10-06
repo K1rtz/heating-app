@@ -38,6 +38,11 @@ export type UserType = {
   name?: string | null;
   role?: "admin" | "customer";
   image?: any;
+  firstName?: string,
+  lastName?: string,
+  district?: string,
+  address?: string,
+  floor?: number,
 } | null;
 
 export type UserDataType = {
