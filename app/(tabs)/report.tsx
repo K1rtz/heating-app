@@ -1,8 +1,8 @@
 import ScreenWrapper from "@/components/ScreenWrapper";
-import { Picker } from "@react-native-picker/picker";
 import { getAuth } from "firebase/auth";
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import ModalSelector from 'react-native-modal-selector';
 
 const auth = getAuth();
 const user = auth.currentUser;
@@ -38,6 +38,15 @@ export default function ReportScreen() {
     }
   };
 
+  const options = [
+  { key: 'tehnicki', label: 'Tehnički problem' },
+  { key: 'administrativni', label: 'Administrativni problem' },
+  { key: 'korisnicki', label: 'Korisnički problem' },
+  { key: 'infrastrukturni', label: 'Infrastrukturni problem' },
+  { key: 'predlog', label: 'Predlog za unapređenje' },
+  { key: 'drugo', label: 'Drugo' },
+];
+
   return (
     <ScreenWrapper>
       <View style={styles.header}>
@@ -46,14 +55,18 @@ export default function ReportScreen() {
       <View style={styles.container}>
         <View style={styles.report}>
           <Text style={styles.label}>Izaberi tip prijave:</Text>
-          <Picker style={{color:"white"}} mode="dropdown" dropdownIconColor={"white"} selectedValue={tip} onValueChange={(v) => setTip(v)}>
-            <Picker.Item color="black" label="Tehnički problem" value="tehnicki" style={styles.label}/>
-            <Picker.Item color="black" label="Administrativni problem" value="administrativni" style={styles.label}/>
-            <Picker.Item color="black" label="Korisnicki problem" value="korisnicki" style={styles.label}/>
-            <Picker.Item color="black" label="Infrastrukturni problem" value="infrastrukturni" style={styles.label}/>
-            <Picker.Item color="black" label="Predlog za unapređenje" value="predlog" style={styles.label}/>
-            <Picker.Item color="black" label="Drugo" value="drugo" style={styles.label}/>
-          </Picker>
+          <ModalSelector
+            data={options}
+            initValue="Izaberi tip prijave"
+            initValueTextStyle={{color:"white", fontSize:18, alignSelf:"flex-start", padding:3}}
+            onChange={(option) => setTip(option.key)}
+            style={{ backgroundColor: '#262626', borderRadius: 8 }}
+            selectStyle={{ backgroundColor: '#262626', borderRadius: 8 }}
+            selectTextStyle={{ color: '#fff' }}
+            optionTextStyle={{ color: '#fff', fontSize:18 }}
+            optionContainerStyle={{ backgroundColor: '#000' }}
+            cancelTextStyle={{ color: 'black', fontSize:18 }}
+          />
 
           <Text style={styles.label2}>Opis problema:</Text>
           <TextInput
@@ -119,13 +132,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "600",
-    marginBottom: 0,
+    marginBottom: 15,
   },
   label2: {
     color: "white",
     fontSize: 18,
     fontWeight: "600",
     marginBottom: 15,
+    marginTop: 15,
   },
   input: {
     borderWidth: 1,

@@ -1,10 +1,10 @@
 import { colors, spacingY } from '@/constants/theme';
 import { verticalScale } from '@/utils/styling';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import * as Icons from 'phosphor-react-native';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function CustomTabs({ state, descriptors, navigation } : BottomTabBarProps) {
 //   const { colors } = useTheme();
@@ -91,7 +91,14 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
                 size={32}
                 color={isFocused ? '#1cc88a' : colors.neutral400}
             />
-        )
+        ),
+        receivedReports: (isFocused: boolean) => (
+            <MaterialCommunityIcons
+                name="exclamation-thick"
+                size={32}
+                color={isFocused ? '#e74a3b' : colors.neutral400}
+            />
+        ),
         // tips: (isFocused: boolean)=>(
         //     <Icons.BooksIcon
         //         size={verticalScale(30)}

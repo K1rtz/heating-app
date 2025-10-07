@@ -12,6 +12,7 @@ const _layout = () => {
       <Tabs.Screen name="home" />
       <Tabs.Screen name="surveyHistory"/>
       <Tabs.Screen name="createSurvey" />
+      <Tabs.Screen name="receivedReports" />
 
     </Tabs>
   )
