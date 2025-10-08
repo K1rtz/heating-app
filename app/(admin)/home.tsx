@@ -1,5 +1,8 @@
 import ScreenWrapper from '@/components/ScreenWrapper';
+import { auth } from '@/config/firebase';
 import { colors } from '@/constants/theme';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { signOut } from 'firebase/auth';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import * as Icons from 'phosphor-react-native';
 import React, { useEffect, useState } from 'react';
@@ -15,6 +18,14 @@ interface Survey {
   optionsCount: Record<string, number>;
   totalVotes: number;
 }
+
+const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (err: any) {
+      Alert.alert('Greška', 'Nije moguće odjaviti se: ' + err.message);
+    }
+  };
 
 const Home = () => {
   const [surveys, setSurveys] = useState<Survey[]>([]);
@@ -85,6 +96,11 @@ const Home = () => {
           ))
         )}
       </ScrollView>
+      {/* LOGOUT */}
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutCard}>
+          <MaterialCommunityIcons name="logout-variant" size={30} color="#E0E0E0" />
+          <Text style={styles.logoutText}>Odjavi se</Text>
+        </TouchableOpacity>
     </ScreenWrapper>
   );
 };
@@ -128,4 +144,27 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: 'white',
   },
+  logoutCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#262626',
+    padding: 14,
+    marginHorizontal: 16,
+    marginVertical: 16,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#a3e635',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  logoutText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#E0E0E0',
+    marginLeft: 8,
+  }
 });

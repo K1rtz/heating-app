@@ -1,8 +1,10 @@
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { getAuth } from "firebase/auth";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import ModalSelector from 'react-native-modal-selector';
+import { firestore as db } from "../../config/firebase";
 
 const auth = getAuth();
 const user = auth.currentUser;
@@ -18,23 +20,36 @@ export default function ReportScreen() {
     }
 
     try {
-      let response = await fetch("https://tvoj-api.com/api/report", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ tip, opis })
+      if (!user) {
+        Alert.alert("Greška", "Morate biti prijavljeni da biste poslali prijavu.");
+        return;
+      }
+
+      const userDocRef = doc(db, "users", user.uid);
+      const userSnapshot = await getDoc(userDocRef);
+
+      if (!userSnapshot.exists()) {
+        Alert.alert("Greška", "Podaci o korisniku nisu pronađeni u bazi.");
+        return;
+      }
+
+      const userData = userSnapshot.data();
+
+      await addDoc(collection(db, "reports"), {
+        type: tip,
+        description: opis,
+        userFirstName: userData.firstName,
+        userLastName: userData.lastName,
+        address: userData.address,
+        district: userData.district,
+        email: userData.email
       });
 
-      if (response.ok) {
-        Alert.alert("Uspeh", "Report je poslat administratoru.");
-        setOpis("");
-        setTip("tehnicki");
-      } else {
-        Alert.alert("Greška", "Nije moguće poslati report.");
-      }
-    } catch (err) {
-      Alert.alert("Greška", "Nije ostvarena konekcija sa bazom podataka.");
+      Alert.alert("Uspeh", "Prijava je uspešno poslata administratoru ✅");
+      setOpis("");
+      setTip("tehnicki");
+    } catch (err: any) {
+      Alert.alert("Greška", "Nije moguće sačuvati prijavu: " + err.message);
     }
   };
 
@@ -149,6 +164,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlignVertical: "top",
     fontSize: 18,
+    color: "white"
   },
   titleText: {
     fontSize: 24,
