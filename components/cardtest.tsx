@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { firestore as db } from '../config/firebase';
+import { colors } from '@/constants/theme';
 
 interface SurveyCardProps {
   surveyId: string;
@@ -116,7 +117,7 @@ export const SurveyCard: React.FC<SurveyCardProps> = ({ surveyId, surveyName, qu
     }
     const success = await submitSurveyResponse(surveyId, user.uid, selectedOption, user.district);
     if (success) {
-      setSelectedOption(null); // Reset selection
+      setSelectedOption(null); 
       onSubmit?.(); // Refresh surveys
     }
   };
@@ -185,11 +186,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 4,
-    overflow: 'hidden', // Prevent content from overflowing during animation
+    overflow: 'hidden',
   },
   header: {
     padding: 16,
-    backgroundColor: '#4e73df',
+    backgroundColor: colors.primary,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
   },
@@ -263,15 +264,15 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   selectedOption: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
+    backgroundColor: '#7fff661f',
+    // borderColor: '#007AFF',
   },
   disabledButton: {
     backgroundColor: '#a0a0a0',
     opacity: 0.6,
   },
   submitButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',

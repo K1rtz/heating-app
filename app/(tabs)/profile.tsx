@@ -1,5 +1,6 @@
 import ScreenWrapper from '@/components/ScreenWrapper';
 import { auth, firestore } from '@/config/firebase';
+import { colors } from '@/constants/theme';
 import { useAuth } from '@/contexts/authContext';
 import { verticalScale } from '@/utils/styling';
 import { Picker } from '@react-native-picker/picker';
@@ -165,8 +166,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 16,
-    // backgroundColor: '#a3e635', // Greenish header
-    backgroundColor: '#f6c23e', // Greenish header
+    // backgroundColor: '#a3e635', 
+    // backgroundColor: '#f6c23e',
+    backgroundColor: colors.primary,
     borderBottomWidth: 1,
     borderBottomColor: '#333333',
     shadowColor: '#000',
@@ -205,12 +207,12 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#f6c23e', // Green for labels
+    color: colors.primary,
     marginBottom: 8,
     marginLeft: 4,
   },
   inputDisplay: {
-    backgroundColor: '#2E2E2E', // Subtle input background
+    backgroundColor: '#2E2E2E',
     color: '#E0E0E0',
     fontSize: 16,
     fontWeight: '500',
@@ -226,7 +228,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   inputEdit: {
-    backgroundColor: '#333333', // Slightly lighter for edit mode
+    backgroundColor: '#333333',
     color: '#E0E0E0',
     fontSize: 16,
     fontWeight: '500',
@@ -242,7 +244,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   pickerWrapper: {
-    backgroundColor: '#333333', // Matches inputEdit
+    backgroundColor: '#333333',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#333333',
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   button: {
-    backgroundColor: '#a3e635', // Green for save
+    backgroundColor: '#a3e635',
     padding: 14,
     borderRadius: 10,
     width: '48%',
@@ -276,9 +278,9 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   cancelButton: {
-    backgroundColor: '#262626', // Darker for cancel
+    backgroundColor: '#827e7eff',
     borderWidth: 1,
-    borderColor: '#a3e635',
+    borderColor: '#2b2c2bff',
   },
   buttonText: {
     color: '#000000',

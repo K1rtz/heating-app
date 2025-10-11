@@ -1,13 +1,14 @@
+import Header from '@/components/Header';
 import ScreenWrapper from '@/components/ScreenWrapper';
 import { auth } from '@/config/firebase';
 import { colors } from '@/constants/theme';
 import { useAuth } from '@/contexts/authContext';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
 import React from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Alert, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 const Home = () => {
@@ -26,11 +27,8 @@ const Home = () => {
   return (
     <ScreenWrapper>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Gradska toplana</Text>
-        </View>
 
+        <Header  text='Gradska toplana'/>
         {/* STATUS */}
         <View style={styles.statusBox}>
           <MaterialCommunityIcons name="radiator" size={24} color="#a3e635" />
@@ -111,67 +109,64 @@ const Home = () => {
   </View>
 </View>
 
-        {/* FEATURES
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Funkcionalnosti</Text>
-          <View style={styles.grid}>
-            <TouchableOpacity style={styles.card} onPress={() => navigateTo('Surveys')}>
-              <Icon name="poll" size={36} color="#a3e635" />
-              <Text style={styles.cardText}>Ankete</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.card} onPress={() => navigateTo('Reports')}>
-              <Icon name="file-alert-outline" size={36} color="#a3e635" />
-              <Text style={styles.cardText}>Reporti</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.card} onPress={() => navigateTo('Tips')}>
-              <Icon name="lightbulb-on-outline" size={36} color="#a3e635" />
-              <Text style={styles.cardText}>Saveti</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.card} onPress={() => navigateTo('Profile')}>
-              <Icon name="account-circle" size={36} color="#a3e635" />
-              <Text style={styles.cardText}>Profil</Text>
-            </TouchableOpacity>
-          </View>
-        </View> */}
+ <View style={styles.section}>
+  <Text style={styles.introTitle}>O Toplani</Text>
+  <Text style={styles.introText}>
+    Gradska toplana Niš je najveći pružalac usluga snabdevanja i distribucije toplotne energije u Nišu. Sistem daljinskog grejanja obezbeđuje toplotu za stanovnike tokom zimske sezone. Glavni izvori toplote su moderne kotlarnice, a distribucija se vrši preko 67 km toplovodne mreže. Toplana opslužuje preko 1.140 stambenih i poslovnih objekata
+    <Text>...</Text>
+  </Text>
 
+  <TouchableOpacity 
+    onPress={() => Linking.openURL('https://nitoplana.rs/istorijat')}
+  >
+    <Text style={{color: '#787b75ff', marginTop: 4}}>Pročitaj više...</Text>
+  </TouchableOpacity>
+</View>
 
+ <View style={styles.section}>
+  <Text style={styles.introTitle}>Istorijat</Text>
+  <Text style={styles.introText}>
+     Prva centralna grejanja u Nišu uvedena su 1930. godine za institucije poput Doma zdravlja i Trgovačke akademije. Nakon Drugog svetskog rata, fokus je bio na obnovi stambenog fonda. Godine 1973. donet je Program toplifikacije, čime je osnovana Gradska toplana, sa kapacitetom od 22,62 MW, opslužujući 104.951 m² stambenog i 9.327 m² poslovnog prostora.
+    <Text>...</Text>
+  </Text>
 
-        {/* ABOUT */}
-        <View style={styles.section}>
-          <Text style={styles.introTitle}>O Toplani</Text>
-          <Text style={styles.introText}>
-            Gradska toplana Niš je najveći pružalac usluga snabdevanja i distribucije toplotne energije u Nišu. Sistem daljinskog grejanja obezbeđuje toplotu za stanovnike tokom zimske sezone. Glavni izvori toplote su moderne kotlarnice, a distribucija se vrši preko 67 km toplovodne mreže. Toplana opslužuje preko 1.140 stambenih i poslovnih objekata.
-          </Text>
-        </View>
-
-        {/* HISTORY */}
-        <View style={styles.section}>
-          <Text style={styles.introTitle}>Istorijat</Text>
-          <Text style={styles.introText}>
-            Prva centralna grejanja u Nišu uvedena su 1930. godine za institucije poput Doma zdravlja i Trgovačke akademije. Nakon Drugog svetskog rata, fokus je bio na obnovi stambenog fonda. Godine 1973. donet je Program toplifikacije, čime je osnovana Gradska toplana, sa kapacitetom od 22,62 MW, opslužujući 104.951 m² stambenog i 9.327 m² poslovnog prostora.
-          </Text>
-        </View>
+  <TouchableOpacity 
+    onPress={() => Linking.openURL('https://nitoplana.rs/istorijat')}
+  >
+    <Text style={{color: '#787b75ff', marginTop: 4}}>Pročitaj više...</Text>
+  </TouchableOpacity>
+</View>
 
         {/* LINKS */}
-        <View style={styles.section}>
-          <Text style={styles.introTitle}>Korisni Linkovi</Text>
-          <View style={styles.linksRow}>
-            <TouchableOpacity style={styles.linkCard}>
-              <MaterialCommunityIcons name="web" size={28} color="#a3e635" />
-              <Text style={styles.linkText}>Sajt</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.linkCard}>
-              <MaterialCommunityIcons name="file-document-outline" size={28} color="#a3e635" />
-              <Text style={styles.linkText}>Dokumenti</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.linkCard}>
-              <MaterialCommunityIcons name="help-circle-outline" size={28} color="#a3e635" />
-              <Text style={styles.linkText}>FAQ</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+      <View style={styles.section}>
+        <Text style={styles.introTitle}>Korisni Linkovi</Text>
+        <View style={styles.linksRow}>
+          <TouchableOpacity 
+            style={styles.linkCard} 
+            onPress={() => Linking.openURL('https://nitoplana.rs/')}
+          >
+            <MaterialCommunityIcons name="web" size={28} color="#a3e635" />
+            <Text style={styles.linkText}>Sajt</Text>
+          </TouchableOpacity>
 
-        {/* LOGOUT */}
+          <TouchableOpacity 
+            style={styles.linkCard} 
+            onPress={() => Linking.openURL('https://nitoplana.rs/documents')}
+          >
+            <MaterialCommunityIcons name="file-document-outline" size={28} color="#a3e635" />
+            <Text style={styles.linkText}>Dokumenta</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.linkCard} 
+            onPress={() => Linking.openURL('https://nitoplana.rs/foto_gallery')}
+          >
+            <MaterialCommunityIcons name="folder-image" size={28} color="#a3e635" />
+            <Text style={styles.linkText}>Galerija</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
         <TouchableOpacity onPress={handleLogout} style={styles.logoutCard}>
           <MaterialCommunityIcons name="logout-variant" size={30} color="#E0E0E0" />
           <Text style={styles.logoutText}>Odjavi se</Text>
@@ -184,133 +179,20 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
-section: {
-    marginHorizontal: 16,
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#a3e635',
-    marginBottom: 8,
-  },
-  sectionSubtitle: {
-    fontSize: 14,
-    color: '#E0E0E0',
-    marginBottom: 12,
-    lineHeight: 20,
-  },
-  mapContainer: {
-    flexDirection: 'column',
-    gap: 12,
-  },
-  mapCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#262626', // Matches card backgrounds
-    padding: 14,
-    borderRadius: 10,
-    borderLeftWidth: 4,
-    borderLeftColor: '#a3e635', // Green accent
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 4,
-    gap: 12,
-  },
-  mapTextBox: {
-    flex: 1,
-  },
-  mapTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#a3e635', // Green for titles
-    marginBottom: 4,
-  },
-  mapText: {
-    fontSize: 13,
-    color: '#E0E0E0', // Light gray for readability
-    lineHeight: 18,
-  },
-//   sectionSubtitle: {
-//   fontSize: 14,
-//   color: '#555',
-//   marginBottom: 10,
-//   marginTop: -2,
-// },
-
-// mapContainer: {
-//   flexDirection: 'column',
-//   gap: 12,
-// },
-
-// mapCard: {
-//   flexDirection: 'row',
-//   alignItems: 'flex-start',
-//   backgroundColor: '#f8f9fc',
-//   padding: 12,
-//   borderRadius: 10,
-//   borderLeftWidth: 4,
-//   shadowColor: '#000',
-//   shadowOpacity: 0.05,
-//   shadowRadius: 3,
-//   elevation: 2,
-//   gap: 10,
-// },
-
-// mapTextBox: {
-//   flex: 1,
-// },
-
-// mapTitle: {
-//   fontSize: 15,
-//   fontWeight: '700',
-//   color: '#222',
-//   marginBottom: 2,
-// },
-
-// mapText: {
-//   fontSize: 13,
-//   color: '#444',
-//   lineHeight: 18,
-// },
-
   scrollContent: {
     paddingBottom: 40,
-    backgroundColor: '#171717', // Darker background
+    backgroundColor: '#171717',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: '#a3e635', // Greenish header
-    borderBottomWidth: 1,
-    borderBottomColor: '#333333', // Subtle border
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3, // Increased for visibility
-    shadowRadius: 4,
-    elevation: 4,
-    borderBottomRightRadius: 25,
-    // borderBottomLeftRadius: 25,
-  },
-  headerText: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#000000',
-  },
+
   statusBox: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 14,
     margin: 16,
     borderRadius: 10,
-    backgroundColor: '#262626', // Slightly lighter than #171717
+    backgroundColor: '#262626',
     borderWidth: 1,
-    borderColor: '#a3e635', // Green accent
+    borderColor: '#a3e635',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -324,100 +206,66 @@ section: {
     color: '#E0E0E0',
   },
 
-
-
   introBox: {
-      // introBox: {
     margin: 16,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderRadius: 10,
     backgroundColor: '#262626',
-  paddingHorizontal: 16,
-  paddingVertical: 12,
-},
-introTitle: {
-  fontSize: 18,
-  fontWeight: '700',
-  color: colors.primary,
-  marginBottom: 6,
-  textAlign: 'center',
-},
-introText: {
-    //   fontSize: 14,
-    color: '#E0E0E0',
-    // lineHeight: 22,
-  fontSize: 14,
-  // color: '#333',
-  textAlign: 'center',
-  lineHeight: 20,
-},
-  // introBox: {
-  //   margin: 16,
-  //   padding: 16,
-  //   borderRadius: 10,
-  //   backgroundColor: '#262626',
-  //   // borderLeftWidth: 4,
-  //   // borderLeftColor: '#a3e635',
-  //   shadowColor: '#000',
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowOpacity: 0.3,
-  //   shadowRadius: 4,
-  //   elevation: 4,
-  // },
-  // introTitle: {
-  //   fontSize: 18,
-  //   fontWeight: '700',
-  //   color: '#a3e635',
-  //   marginBottom: 8,
-  // },
-  // introText: {
-  //   fontSize: 14,
-  //   color: '#E0E0E0',
-  //   lineHeight: 22,
-  // },
-  // section: {
-  //   marginHorizontal: 16,
-  //   marginBottom: 20,
-  // },
-  // sectionTitle: {
-  //   fontSize: 18,
-  //   fontWeight: '600',
-  //   color: '#a3e635',
-  //   marginBottom: 8,
-  // },
-  sectionText: {
+  },
+  introTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: colors.primary,
+    marginBottom: 6,
+    textAlign: 'left',
+  },
+  introText: {
     fontSize: 14,
-    color: '#E0E0E0',
-    lineHeight: 22,
+    color: '#ffffff',
+    lineHeight: 20,
+    textAlign: 'justify',
   },
-  grid: {
+
+  section: {
+    marginHorizontal: 16,
+    marginBottom: 20,
+  },
+
+  mapContainer: {
+    flexDirection: 'column',
+    gap: 12,
+  },
+  mapCard: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginTop: 12,
-  },
-  card: {
-    width: '48%',
-    height: 120,
-    backgroundColor: '#262626',
-    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#262626',
+    padding: 14,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#333333',
-    marginBottom: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: '#a3e635',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 4,
+    gap: 12,
   },
-  cardText: {
-    marginTop: 8,
-    fontSize: 14,
-    fontWeight: '600',
+  mapTextBox: {
+    flex: 1,
+  },
+  mapTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#a3e635',
+    marginBottom: 4,
+  },
+  mapText: {
+    fontSize: 13,
     color: '#E0E0E0',
+    lineHeight: 18,
   },
+
   linksRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -443,6 +291,7 @@ introText: {
     color: '#E0E0E0',
     fontWeight: '500',
   },
+
   logoutCard: {
     flexDirection: 'row',
     alignItems: 'center',

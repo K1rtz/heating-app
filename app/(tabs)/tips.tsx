@@ -1,4 +1,6 @@
+import Header from '@/components/Header';
 import ScreenWrapper from '@/components/ScreenWrapper';
+import { colors } from '@/constants/theme';
 import React, { useState } from 'react';
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -9,7 +11,7 @@ const tips = () => {
   const tips = [
     { title: "Iskoristite suncevu toplotu", text: "Otvori roletne i zavese tokom dana da pustiš sunce unutra, a zatvori ih noću da zadržiš toplotu.", image: require('@/assets/images/sun.png') },
     { title: "Odzrači radijatore redovno", text: "Vazduh u radijatorima smanjuje efikasnost grejanja – povremeno ih odzrači za bolju cirkulaciju toplote.", image: require('@/assets/images/radiator.png') },
-    { title: "Zatvori vrata prostorija koje ne koristiš", text: "Ako neka soba nije u upotrebi, smanji grejanje i zatvori vrata da toplota ne „beži“.", image: require('@/assets/images/door-open.png') },
+    // { title: "Zatvori vrata prostorija koje ne koristiš", text: "Ako neka soba nije u upotrebi, smanji grejanje i zatvori vrata da toplota ne „beži“.", image: require('@/assets/images/door-open.png') },
     { title: "Ne blokiraj radijatore", text: "Radijatori treba da budu slobodni i neblokirani nameštajem, zavjesama ili drugim predmetima. Kada je radijator pokriven, to sprečava cirkulaciju toplog vazduha i smanjuje efikasnost grejanja. Održavanje prostora ispred radijatora omogućava ravnomerno grejanje i smanjuje potrošnju energije.", image: require('@/assets/images/radiatorblock.png') },
     { title: "Čisti radijatore od prašine", text: "Prašina na radijatoru smanjuje širenje toplote. Redovno čišćenje pomaže da grejanje bude efikasnije.", image: require('@/assets/images/brush.png') },
     { title: "Kako provetriti prostoju?", text: "Otvorite prozore širom na 5–10 minuta, nekoliko puta dnevno, kako biste osvežili vazduh, a da pritom ne izgubite previše toplote. Za brži efekat, napravite promaju otvaranjem prozora na suprotnim stranama prostorije i zatvorite radijator dok provetravate.", image: require('@/assets/images/window.png') },
@@ -23,9 +25,7 @@ const tips = () => {
 
   return (
     <ScreenWrapper>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>{tips[page].title}</Text>
-      </View>
+      <Header  text={tips[page].title}/>
     <View style={styles.container}>
       <PagerView style={styles.container}
       initialPage={0}
@@ -55,20 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-    header: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    backgroundColor: '#1cc88a', // semi-transparent
-    borderBottomWidth: 2,
-    borderBottomColor: '#177c56ff',
-    borderBottomRightRadius: 25,
-  },
-  headerText: {
-  fontSize: 20,
-  fontWeight: '600'
- },
+
   pager: { flex: 1 },
   pageContent: {
     // backgroundColor: 'red',
@@ -82,14 +69,15 @@ const styles = StyleSheet.create({
   },
   image: {
     width: width * 0.8,
-    height: height * 0.4,
-    marginTop: 50,
+    height: height * 0.35,
+    marginTop: 40,
+    borderRadius: 12,
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'center',
-    marginTop: 10,
-    color: 'white',
+    color: '#E0E0E0',
+    lineHeight: 24,
   },
   footerText:{
     fontSize: 18,

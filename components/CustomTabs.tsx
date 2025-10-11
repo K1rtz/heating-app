@@ -44,7 +44,8 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             <MaterialCommunityIcons
                 name="account-circle-outline"
                 size={32}
-                color={isFocused ? '#f6c23e' : colors.neutral400}
+                color={isFocused ? colors.primary : colors.neutral400}
+                // color={isFocused ? '#f6c23e' : colors.neutral400}
             />
         ),
         // profile: (isFocused: boolean)=>(
@@ -58,7 +59,8 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             <MaterialCommunityIcons
                 name="exclamation-thick"
                 size={32}
-                color={isFocused ? '#e74a3b' : colors.neutral400}
+                color={isFocused ? colors.primary : colors.neutral400}
+                // color={isFocused ? '#e74a3b' : colors.neutral400}
             />
         ),
         // report: (isFocused: boolean)=>(
@@ -74,7 +76,8 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             <MaterialCommunityIcons
                 name="notebook-edit"
                 size={32}
-                color={isFocused ? '#4e73df' : colors.neutral400}
+                color={isFocused ? colors.primary : colors.neutral400}
+                // color={isFocused ? '#4e73df' : colors.neutral400}
             />
         ),
         // surveys: (isFocused: boolean)=>(
@@ -89,7 +92,8 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             <MaterialCommunityIcons
                 name="lightbulb-on-outline"
                 size={32}
-                color={isFocused ? '#1cc88a' : colors.neutral400}
+                color={isFocused ? colors.primary : colors.neutral400}
+                // color={isFocused ? '#1cc88a' : colors.neutral400}
             />
         ),
         receivedReports: (isFocused: boolean) => (

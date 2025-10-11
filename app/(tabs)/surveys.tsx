@@ -1,4 +1,5 @@
 import { SurveyCard as Sc } from "@/components/cardtest";
+import Header from "@/components/Header";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { useAuth } from "@/contexts/authContext";
 import { getAuth } from 'firebase/auth';
@@ -82,9 +83,8 @@ const Surveys = () => {
 
   return (
     <ScreenWrapper>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Aktuelne Ankete</Text>
-      </View>
+
+      <Header text='Aktuelne Ankete'/>
       <ScrollView style={styles.container}>
         {loading ? (
           <Text style={styles.loadingText}>Učitavanje...</Text>
@@ -111,20 +111,6 @@ const Surveys = () => {
 export default Surveys;
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    backgroundColor: '#4e73df',
-    borderBottomWidth: 2,
-    borderBottomColor: '#283c77ff',
-    borderBottomRightRadius: 25,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
   container: {
     flex: 1,
     paddingLeft: 16,

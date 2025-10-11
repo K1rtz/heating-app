@@ -1,26 +1,33 @@
+import Header from "@/components/Header";
 import ScreenWrapper from "@/components/ScreenWrapper";
-import { getAuth } from "firebase/auth";
+import { colors } from "@/constants/theme";
+import { useAuth } from "@/contexts/authContext";
 import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import ModalSelector from 'react-native-modal-selector';
 import { firestore as db } from "../../config/firebase";
 
-const auth = getAuth();
-const user = auth.currentUser;
+// const user = auth.currentUser;
+// const []
 
 export default function ReportScreen() {
+  
+  const {user} = useAuth();
   const [tip, setTip] = useState("tehnicki");
   const [opis, setOpis] = useState("");
 
+
   const posaljiReport = async () => {
+    console.log(user);
     if (!opis.trim()) {
       Alert.alert("Greška", "Unesite opis problema.");
       return;
     }
 
     try {
-      if (!user) {
+      if (!user || !user.uid) {
+        console.log('xdd')
         Alert.alert("Greška", "Morate biti prijavljeni da biste poslali prijavu.");
         return;
       }
@@ -54,19 +61,17 @@ export default function ReportScreen() {
   };
 
   const options = [
-  { key: 'tehnicki', label: 'Tehnički problem' },
-  { key: 'administrativni', label: 'Administrativni problem' },
-  { key: 'korisnicki', label: 'Korisnički problem' },
-  { key: 'infrastrukturni', label: 'Infrastrukturni problem' },
-  { key: 'predlog', label: 'Predlog za unapređenje' },
-  { key: 'drugo', label: 'Drugo' },
-];
+    { key: 'tehnicki', label: 'Tehnički problem' },
+    { key: 'administrativni', label: 'Administrativni problem' },
+    { key: 'korisnicki', label: 'Korisnički problem' },
+    { key: 'infrastrukturni', label: 'Infrastrukturni problem' },
+    { key: 'predlog', label: 'Predlog za unapređenje' },
+    { key: 'drugo', label: 'Drugo' },
+  ];
 
   return (
     <ScreenWrapper>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Prijava problema</Text>
-      </View>
+      <Header text="Prijava problema" />
       <View style={styles.container}>
         <View style={styles.report}>
           <Text style={styles.label}>Izaberi tip prijave:</Text>
@@ -87,11 +92,9 @@ export default function ReportScreen() {
           <TextInput
             style={styles.input}
             multiline
-            numberOfLines={4}
+            numberOfLines={6} // Increased from 4 to 6 for better visibility
             placeholder="Unesite opis..."
-            placeholderTextColor={
-              "white"
-            }
+            placeholderTextColor="white"
             value={opis}
             onChangeText={setOpis}
           />
@@ -111,9 +114,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 20,
-    backgroundColor: '#eb1a1aff',
+    backgroundColor: colors.primary,
     borderBottomWidth: 2,
-    borderBottomColor: '#ef4444',
+    borderBottomColor: colors.primaryShadow,
     borderBottomRightRadius: 25,
   },
   headerText: {
@@ -125,7 +128,8 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "flex-start", // Changed from center to flex-start
+    paddingTop: 20, // Added padding to create space below header
   },
   report: {
     backgroundColor: '#262626',
@@ -139,7 +143,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     width: 350,
-    marginBottom: 40,
     padding: 16,
     elevation: 4,
   },
@@ -160,29 +163,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
-    padding: 10,
+    padding: 12,
     marginBottom: 10,
     textAlignVertical: "top",
     fontSize: 18,
-    color: "white"
-  },
-  titleText: {
-    fontSize: 24,
-    textAlign: "center",
-    marginTop: 15,
-    marginBottom: 20,
+    color: "white",
+    minHeight: 120, // Added to ensure larger input area
   },
   button: {
-      backgroundColor: "#ef4444",
-      marginTop: 15,
-      paddingVertical: 12,
-      paddingHorizontal: 24,
-      borderRadius: 8,
-      alignItems: "center",
-    },
-    buttonText: {
-      color: "#fff",
-      fontSize: 16,
-      fontWeight: "600",
-    },
+    backgroundColor: "#ef4444",
+    marginTop: 15,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
 });

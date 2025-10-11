@@ -35,8 +35,7 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
                     }
                     setUser(userData);
                     if(data?.role == "admin"){
-                        // router.replace("/(admin)/createSurvey");
-                                                router.replace("/(admin)/home");
+                        router.replace("/(admin)/home");
 
                     }else{
                         router.replace("/(tabs)/surveys");
@@ -47,16 +46,6 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
                 setUser(null);
                 router.replace("/(auth)/login")
             }
-
-            // console.log('firebase user:', firebaseUser)
-            // if(firebaseUser){
-            //     setUser({
-            //         uid: firebaseUser?.uid,
-            //         email: firebaseUser?.email,
-            //         role: firebaseUser?.role || "customer",
-            //     })
-            //     router.replace("/(tabs)/home");
-            // }
         })
         
         return () => unsub();

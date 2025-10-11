@@ -46,7 +46,7 @@ const Register = () => {
         <View style={styles.centerWrapper}>
           <View style={styles.formContainer}> 
             <Text style={[styles.title, { fontFamily: 'October Crow' }]}>
-              Sign Up
+              Registracija
             </Text>
 
             {/* Email */}
@@ -99,12 +99,12 @@ const Register = () => {
               ) : ( */}
                 <View style={styles.loadingWrapper}>
                   <TouchableOpacity  onPress={handleRegistration} style={styles.signInButton}>
-                    <Text style={styles.signInButtonText}>Sign Un</Text>
+                    <Text style={styles.signInButtonText}>Kreiraj nalog</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.noAccountButton}>
                     <Pressable>
                       <Text onPress={()=>router.push('./login')} style={styles.noAccountText}>
-                        Already got an account?
+                        Već ste registrovani?
                       </Text>
                     </Pressable>
                   </TouchableOpacity>
@@ -209,7 +209,6 @@ signInButtonText: {
   textAlign: 'center',
   color: '#f1f1f1',
   fontWeight: '700',
-  textTransform: 'uppercase',
   letterSpacing: 1,
 },
   noAccountButton: {
