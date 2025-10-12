@@ -6,7 +6,8 @@ import { signOut } from 'firebase/auth';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import * as Icons from 'phosphor-react-native';
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AdminSurveyCard } from '../../components/AdminSurveyCard'; // Adjust path as needed
 import { firestore as db } from '../../config/firebase';
 
 interface Survey {
@@ -44,8 +45,8 @@ const Home = () => {
       const fetchedSurveys: Survey[] = [];
       for (const docSnapshot of querySnapshot.docs) {
         const surveyData = docSnapshot.data();
-        const optionsCount = surveyData.optionsCount || {};
-        const totalVotes = 0;//Object.values(optionsCount).reduce((sum: number, count: number) => sum + count, 0);
+        const optionsCount: Record<string, number> = surveyData.optionsCount || {};
+        const totalVotes = Object.values(optionsCount).reduce((sum, count) => sum + count, 0);
 
         fetchedSurveys.push({
           id: docSnapshot.id,
@@ -53,7 +54,7 @@ const Home = () => {
           question: surveyData.question,
           options: surveyData.options,
           optionsCount,
-          totalVotes
+          totalVotes,
         });
       }
       setSurveys(fetchedSurveys);
@@ -76,7 +77,7 @@ const Home = () => {
           <Icons.ArrowsClockwiseIcon size={24} color="black" />
         </TouchableOpacity>
       </View>
-      {/* <ScrollView style={styles.container}>
+      <ScrollView style={styles.container}>
         {loading ? (
           <Text style={styles.loadingText}>Učitavanje...</Text>
         ) : surveys.length === 0 ? (
@@ -91,11 +92,10 @@ const Home = () => {
               options={survey.options}
               optionsCount={survey.optionsCount}
               totalVotes={survey.totalVotes}
-              onDelete={}
             />
           ))
         )}
-      </ScrollView> */}
+      </ScrollView>
       {/* LOGOUT */}
         <TouchableOpacity onPress={handleLogout} style={styles.logoutCard}>
           <MaterialCommunityIcons name="logout-variant" size={30} color="#E0E0E0" />

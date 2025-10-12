@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import {
-    Animated,
-    LayoutChangeEvent,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  Animated,
+  LayoutChangeEvent,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 interface AdminSurveyCardProps {
@@ -15,7 +15,6 @@ interface AdminSurveyCardProps {
   options: { id: string; text: string }[];
   optionsCount: Record<string, number>;
   totalVotes: number;
-  onDelete: (id: string) => void;
 }
 
 export const AdminSurveyCard: React.FC<AdminSurveyCardProps> = ({
@@ -25,7 +24,6 @@ export const AdminSurveyCard: React.FC<AdminSurveyCardProps> = ({
   options,
   optionsCount,
   totalVotes,
-  onDelete
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
@@ -58,10 +56,6 @@ export const AdminSurveyCard: React.FC<AdminSurveyCardProps> = ({
     return `${percentage}% (${votes})`;
   };
 
-const handleDelete = (id: string) => {
-    onDelete(id);
-};
-
   // Render content (visible or hidden for measurement)
   const renderContent = () => (
     <View style={[styles.content, !isExpanded && styles.hiddenContent]} onLayout={onContentLayout}>
@@ -75,13 +69,6 @@ const handleDelete = (id: string) => {
         ))}
       </View>
       <Text style={styles.totalVotes}>Ukupno glasova: {totalVotes}</Text>
-      {/* Dugme za brisanje */}
-            <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => handleDelete(surveyId)}
-            >
-                <Text style={styles.deleteButtonText}>Obriši</Text>
-            </TouchableOpacity>
     </View>
   );
 
@@ -188,18 +175,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#E0E0E0',
     textAlign: 'right',
-  },
-  deleteButton: {
-    backgroundColor: 'black',
-    marginTop: 10,
-    paddingVertical: 10,
-    borderRadius: 6,
-    alignItems: 'center',
-  },
-  deleteButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 16,
   },
 });
 
