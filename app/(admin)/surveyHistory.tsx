@@ -75,6 +75,8 @@ const SurveyHistory = () => {
               options={survey.options}
               optionsCount={survey.optionsCount}
               totalVotes={survey.totalVotes}
+              isDeletable = {true}
+              onDelete={fetchExpiredSurveys}
             />
           ))
         )}

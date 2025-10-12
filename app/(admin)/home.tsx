@@ -72,6 +72,9 @@ const Home = () => {
   return (
     <ScreenWrapper>
       <View style={styles.header}>
+          <TouchableOpacity style={styles.iconLeft} onPress={handleLogout}>
+    <MaterialCommunityIcons name="logout-variant" size={24} color="#000" />
+  </TouchableOpacity>
         <Text style={styles.headerText}>Aktivne Ankete</Text>
         <TouchableOpacity style={styles.iconRight} onPress={(fetchActiveSurveys)}>
           <Icons.ArrowsClockwiseIcon size={24} color="black" />
@@ -92,15 +95,11 @@ const Home = () => {
               options={survey.options}
               optionsCount={survey.optionsCount}
               totalVotes={survey.totalVotes}
+              isDeletable = {false}
             />
           ))
         )}
       </ScrollView>
-      {/* LOGOUT */}
-        <TouchableOpacity onPress={handleLogout} style={styles.logoutCard}>
-          <MaterialCommunityIcons name="logout-variant" size={30} color="#E0E0E0" />
-          <Text style={styles.logoutText}>Odjavi se</Text>
-        </TouchableOpacity>
     </ScreenWrapper>
   );
 };
@@ -126,6 +125,12 @@ const styles = StyleSheet.create({
     right: 16,  // odmakne ikonu od desne ivice
     top: "50%",
     transform: [{ translateY: -12 }], // vertikalno centriranje
+  },
+  iconLeft: {
+    position: 'absolute',
+    left: 16,
+    top: '50%',
+    transform: [{ translateY: -12 }],
   },
   container: {
     flex: 1,

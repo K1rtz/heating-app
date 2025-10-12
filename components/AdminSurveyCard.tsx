@@ -1,11 +1,15 @@
+import { deleteDoc, doc } from 'firebase/firestore';
 import React, { useRef, useState } from 'react';
+import { firestore as db } from '../config/firebase';
+
 import {
-  Animated,
-  LayoutChangeEvent,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    Alert,
+    Animated,
+    LayoutChangeEvent,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 
 interface AdminSurveyCardProps {
@@ -15,6 +19,8 @@ interface AdminSurveyCardProps {
   options: { id: string; text: string }[];
   optionsCount: Record<string, number>;
   totalVotes: number;
+  isDeletable: boolean;
+  onDelete?: () => void;   
 }
 
 export const AdminSurveyCard: React.FC<AdminSurveyCardProps> = ({
@@ -24,6 +30,8 @@ export const AdminSurveyCard: React.FC<AdminSurveyCardProps> = ({
   options,
   optionsCount,
   totalVotes,
+  isDeletable,
+  onDelete, 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
@@ -31,9 +39,28 @@ export const AdminSurveyCard: React.FC<AdminSurveyCardProps> = ({
 
   const onContentLayout = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout;
-    // Add padding/margins to ensure full content fits
     setContentHeight(height + 32); // Adjust for padding (16 top + 16 bottom)
   };
+
+const handleDeleteSurvey = async (id: string) => {
+  Alert.alert('Potvrda', 'Da li želite da obrišete ovu anketu?', [
+    { text: 'Otkaži', style: 'cancel' },
+    {
+      text: 'Obriši',
+      style: 'destructive',
+      onPress: async () => {
+        try {
+          await deleteDoc(doc(db, 'surveys', id));
+          onDelete?.();
+          Alert.alert('Uspeh', 'Anketa je uspešno obrisana.');
+        } catch (err: any) {
+          Alert.alert('Greška', 'Brisanje nije uspelo: ' + err.message);
+        }
+      },
+    },
+  ]);
+};
+
 
   const toggleExpand = () => {
     Animated.timing(animation, {
@@ -68,7 +95,23 @@ export const AdminSurveyCard: React.FC<AdminSurveyCardProps> = ({
           </View>
         ))}
       </View>
+      {/* <View style={styles.doleText}>
+      <Text style={styles.deleteText}>obriši</Text>
       <Text style={styles.totalVotes}>Ukupno glasova: {totalVotes}</Text>
+      </View> */}
+      {
+        isDeletable ? 
+          <View style={styles.doleText}>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteSurvey(surveyId)}>
+                <Text style={styles.deleteIcon}>✖</Text>
+                <Text style={styles.deleteText}>Obriši</Text>
+            </TouchableOpacity>
+            <Text style={styles.totalVotes}>Ukupno glasova: {totalVotes}</Text>
+       </View>
+       :
+        <Text style={styles.totalVotes}>Ukupno glasova: {totalVotes}</Text>
+
+    }
     </View>
   );
 
@@ -170,12 +213,57 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#a3e635',
   },
+//   doleText:{
+//     display: 'flex',
+//     flexDirection: 'row',
+//     justifyContent: 'space-between'
+//   },
   totalVotes: {
     fontSize: 14,
     fontWeight: '600',
     color: '#E0E0E0',
     textAlign: 'right',
-  },
+  },  
+//   deleteText: {
+//     fontSize: 14,
+//     fontWeight: '600',
+//     color: '#ca1b1bff',
+//     textAlign: 'left',
+//   },
+doleText: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: 10,
+},
+
+deleteButton: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: '#3a0000', // tamno crvena pozadina
+  borderRadius: 6,
+  paddingHorizontal: 10,
+  paddingVertical: 6,
+  borderWidth: 1,
+  borderColor: '#ca1b1bff',
+  shadowColor: '#ca1b1bff',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.3,
+  shadowRadius: 4,
+},
+
+deleteIcon: {
+  color: '#ca1b1bff',
+  fontSize: 14,
+  marginRight: 6,
+  fontWeight: '700',
+},
+
+deleteText: {
+  fontSize: 14,
+  fontWeight: '600',
+  color: '#ca1b1bff',
+},
 });
 
 export default AdminSurveyCard;

@@ -93,65 +93,64 @@ const CreateSurvey = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Kreiraj novu anketu</Text>
       </View>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.label}>Naslov ankete</Text>
+<ScrollView contentContainerStyle={styles.container}>
+  <View style={styles.formWrapper}>
+    <Text style={styles.label}>Naslov ankete</Text>
+    <TextInput
+      style={styles.input}
+      placeholderTextColor={'#bbbbbbff'}
+      placeholder="Unesi naslov"
+      value={title}
+      onChangeText={setTitle}
+    />
+
+    <Text style={styles.label}>Pitanje</Text>
+    <TextInput
+      style={styles.input}
+      placeholder="Unesi pitanje"
+      placeholderTextColor={'#bbbbbbff'}
+      value={question}
+      onChangeText={setQuestion}
+    />
+
+    <Text style={styles.label}>Trajanje ankete</Text>
+    <View style={styles.pickerWrapper}>
+      <Picker
+        selectedValue={duration}
+        onValueChange={setDuration}
+        style={styles.picker}
+      >
+        <Picker.Item label="24 sata" value="24h" />
+        <Picker.Item label="48 sati" value="48h" />
+        <Picker.Item label="1 nedelja" value="1week" />
+      </Picker>
+    </View>
+
+    <Text style={styles.label}>Odgovori</Text>
+    {options.map((opt, idx) => (
+      <View key={idx} style={styles.optionRow}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { flex: 1 }]}
+          placeholder={`Opcija ${idx + 1}`}
           placeholderTextColor={'#bbbbbbff'}
-          placeholder="Unesi naslov"
-          value={title}
-          onChangeText={setTitle}
+          value={opt}
+          onChangeText={(text) => handleOptionChange(text, idx)}
         />
-
-        <Text style={styles.label}>Pitanje</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Unesi pitanje"
-          placeholderTextColor={'#bbbbbbff'}
-          value={question}
-          onChangeText={setQuestion}
-        />
-
-        <Text style={styles.label}>Trajanje ankete</Text>
-        <View style={{ borderRadius: 15, borderWidth: 1, overflow: 'hidden', width: 140, marginTop: 6 }}>
-
-        <Picker
-          selectedValue={duration}
-          onValueChange={setDuration}
-          style={styles.picker}
-        >
-          <Picker.Item label="24 sata" value="24h" />
-          <Picker.Item label="48 sati" value="48h" />
-          <Picker.Item label="1 nedelja" value="1week" />
-        </Picker>
-        </View>
-        <Text style={styles.label}>Odgovori</Text>
-        {options.map((opt, idx) => (
-          <View key={idx} style={styles.optionRow}>
-            <TextInput
-              style={[styles.input, { flex: 1 }]}
-              placeholder={`Opcija ${idx + 1}`}
-              placeholderTextColor={'#bbbbbbff'}
-              value={opt}
-              onChangeText={(text) => handleOptionChange(text, idx)}
-            />
-            <TouchableOpacity
-              style={styles.removeBtn}
-              onPress={() => handleRemoveOption(idx)}
-            >
-              <Text style={styles.removeBtnText}>✕</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-
-        <TouchableOpacity style={styles.addBtn} onPress={handleAddOption}>
-          <Text style={styles.addBtnText}>+ Dodaj opciju</Text>
+        <TouchableOpacity style={styles.removeBtn} onPress={() => handleRemoveOption(idx)}>
+          <Text style={styles.removeBtnText}>✕</Text>
         </TouchableOpacity>
+      </View>
+    ))}
 
-        <TouchableOpacity style={styles.publishBtn} onPress={handleCreateSurvey}>
-          <Text style={styles.publishBtnText}>Objavi anketu</Text>
-        </TouchableOpacity>
-      </ScrollView>
+    <TouchableOpacity style={styles.addBtn} onPress={handleAddOption}>
+      <Text style={styles.addBtnText}>+ Dodaj opciju</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity style={styles.publishBtn} onPress={handleCreateSurvey}>
+      <Text style={styles.publishBtnText}>Objavi anketu</Text>
+    </TouchableOpacity>
+  </View>
+</ScrollView>
     </ScreenWrapper>
   );
 };
@@ -159,6 +158,27 @@ const CreateSurvey = () => {
 export default CreateSurvey;
 
 const styles = StyleSheet.create({
+  formWrapper: {
+  backgroundColor: '#262626',
+  borderRadius: 12,
+  padding: 16,
+  marginHorizontal: 6,
+  borderWidth: 1,
+  borderColor: '#333333',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.3,
+  shadowRadius: 4,
+  elevation: 4,
+},
+  pickerWrapper: {
+    borderRadius: 15,
+    borderWidth: 1,
+    overflow: 'hidden',
+    width: 140,
+    marginTop: 6,
+    backgroundColor: '#333',
+  },
   container: {
     padding: 16,
   },
