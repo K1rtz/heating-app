@@ -7,8 +7,6 @@ import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CustomTabs({ state, descriptors, navigation } : BottomTabBarProps) {
-//   const { colors } = useTheme();
-//   const { buildHref } = useLinkBuilder();
 
     const tabberIcons: any ={
         surveyHistory: (isFocused: boolean)=>(
@@ -32,44 +30,21 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
                 color={isFocused ? colors.primary : colors.neutral400}
             />
         ),
-        // home: (isFocused: boolean)=>(
-        //     <Icons.HouseIcon
-        //         size={verticalScale(30)}
-        //         weight={isFocused? 'fill' : 'regular'}
-        //         color={isFocused? colors.primary : colors.neutral400}
-        //     />
-        // ),
 
         profile: (isFocused: boolean)=>(
             <MaterialCommunityIcons
                 name="account-circle-outline"
                 size={32}
                 color={isFocused ? colors.primary : colors.neutral400}
-                // color={isFocused ? '#f6c23e' : colors.neutral400}
             />
         ),
-        // profile: (isFocused: boolean)=>(
-        //     <Icons.UserCircleIcon
-        //         size={verticalScale(30)}
-        //         weight={isFocused? 'fill' : 'regular'}
-        //         color={isFocused? colors.primary : colors.neutral400}
-        //     />
-        // ),
         report: (isFocused: boolean)=>(
             <MaterialCommunityIcons
                 name="exclamation-thick"
                 size={32}
                 color={isFocused ? colors.primary : colors.neutral400}
-                // color={isFocused ? '#e74a3b' : colors.neutral400}
             />
         ),
-        // report: (isFocused: boolean)=>(
-        //     <Icons.WarningCircleIcon
-        //         size={verticalScale(30)}
-        //         weight={isFocused? 'fill' : 'regular'}
-        //         color={isFocused? colors.primary : colors.neutral400}
-        //     />
-        // ),
 
 
         surveys: (isFocused: boolean)=>(
@@ -77,23 +52,14 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
                 name="notebook-edit"
                 size={32}
                 color={isFocused ? colors.primary : colors.neutral400}
-                // color={isFocused ? '#4e73df' : colors.neutral400}
             />
         ),
-        // surveys: (isFocused: boolean)=>(
-        //     <Icons.NotepadIcon
-        //         size={verticalScale(30)}
-        //         weight={isFocused? 'fill' : 'regular'}
-        //         color={isFocused? colors.primary : colors.neutral400}
-        //     />
-        // ),
 
         tips: (isFocused: boolean)=>(
             <MaterialCommunityIcons
                 name="lightbulb-on-outline"
                 size={32}
                 color={isFocused ? colors.primary : colors.neutral400}
-                // color={isFocused ? '#1cc88a' : colors.neutral400}
             />
         ),
         receivedReports: (isFocused: boolean) => (
@@ -103,13 +69,6 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
                 color={isFocused ? '#e74a3b' : colors.neutral400}
             />
         ),
-        // tips: (isFocused: boolean)=>(
-        //     <Icons.BooksIcon
-        //         size={verticalScale(30)}
-        //         weight={isFocused? 'fill' : 'regular'}
-        //         color={isFocused? colors.primary : colors.neutral400}
-        //     />
-        // )
 
         }
 
@@ -149,7 +108,6 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             
             return (
                 <TouchableOpacity
-                // href={buildHref(route.name, route.params)}
                 key={route.name}
                 accessibilityState={isFocused ? { selected: true } : {}}
                 accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -158,9 +116,6 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
                 onLongPress={onLongPress}
                 style={styles.tabbarItem}
                 >
-            {/* <Text style={{ color: isFocused ? colors.primary : colors.white }}>
-              {label}
-              </Text> */}
             {
                 tabberIcons[route.name] && tabberIcons[route.name](isFocused)
             }

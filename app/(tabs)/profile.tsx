@@ -35,7 +35,6 @@ const Profile = () => {
     'Niska Banja',
     'Medijana',
   ];
-// const { user } = useAuth();
 
   const { updateUserData } = useAuth(); 
 
@@ -202,13 +201,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#171717', // Dark background
+    backgroundColor: '#171717', 
   },
   contentContainer: {
-    paddingBottom: 40, // Extra padding for scroll
+    paddingBottom: 40, 
   },
   card: {
-    backgroundColor: '#262626', // Card background
+    backgroundColor: '#262626', 
     borderRadius: 12,
     marginHorizontal: 16,
     marginVertical: 20,

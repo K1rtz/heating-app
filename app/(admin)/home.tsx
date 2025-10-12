@@ -7,7 +7,7 @@ import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore
 import * as Icons from 'phosphor-react-native';
 import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { AdminSurveyCard } from '../../components/AdminSurveyCard'; // Adjust path as needed
+import { AdminSurveyCard } from '../../components/AdminSurveyCard';
 import { firestore as db } from '../../config/firebase';
 
 interface Survey {
@@ -122,9 +122,9 @@ const styles = StyleSheet.create({
   },
   iconRight: {
     position: "absolute",
-    right: 16,  // odmakne ikonu od desne ivice
+    right: 16,  
     top: "50%",
-    transform: [{ translateY: -12 }], // vertikalno centriranje
+    transform: [{ translateY: -12 }], 
   },
   iconLeft: {
     position: 'absolute',

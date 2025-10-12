@@ -20,7 +20,6 @@ const ReceivedReports = () => {
   const [loading, setLoading] = useState(true);
   const [expandedIds, setExpandedIds] = useState<string[]>([]);
 
-  // 🔹 Učitavanje reportova u realnom vremenu
   useEffect(() => {
     const unsubscribe = onSnapshot(
       collection(db, 'reports'),
@@ -47,7 +46,6 @@ const ReceivedReports = () => {
     return () => unsubscribe();
   }, []);
 
-  // 🔹 Funkcija za proširivanje / skupljanje prijava
   const toggleExpand = (id: string) => {
     if (expandedIds.includes(id)) {
       setExpandedIds(expandedIds.filter((x) => x !== id));
@@ -56,7 +54,6 @@ const ReceivedReports = () => {
     }
   };
 
-  // 🔹 Brisanje prijave
   const handleDelete = async (id: string) => {
     Alert.alert(
       'Potvrda',
@@ -68,8 +65,8 @@ const ReceivedReports = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await deleteDoc(doc(db, 'reports', id)); // brisanje iz Firestore-a
-              setReports((prev) => prev.filter((r) => r.id !== id)); // ažuriraj lokalno stanje
+              await deleteDoc(doc(db, 'reports', id)); 
+              setReports((prev) => prev.filter((r) => r.id !== id)); 
               Alert.alert('Uspeh', 'Prijava je uspešno obrisana.');
             } catch (err: any) {
               Alert.alert('Greška', 'Brisanje nije uspelo: ' + err.message);
@@ -105,15 +102,20 @@ const ReceivedReports = () => {
 
                   {isExpanded && (
                     <View style={styles.detailsContainer}>
-                      <Text style={styles.detailText}>Opis: {r.description}</Text>
-                      <Text style={styles.detailText}>
-                        Korisnik: {r.userFirstName} {r.userLastName}
-                      </Text>
-                      <Text style={styles.detailText}>Adresa: {r.address}</Text>
-                      <Text style={styles.detailText}>Opština: {r.district}</Text>
-                      <Text style={styles.detailText}>Email: {r.email}</Text>
+                      <Text style={styles.detailText}>Informacije o korisniku:</Text>
+                      <View style={styles.info}>
+                        <Text style={styles.detailText}>
+                          Korisnik: {r.userFirstName} {r.userLastName}
+                        </Text>
+                        <Text style={styles.detailText}>Adresa: {r.address}</Text>
+                        <Text style={styles.detailText}>Opština: {r.district}</Text>
+                        <Text style={styles.detailText}>Email: {r.email}</Text>
+                      </View>
+                      <Text style={styles.detailText}>Opis problema:</Text>
+                      <View style={styles.info}>
+                        <Text style={styles.detailText}>{r.description}</Text>
+                      </View>
 
-                      {/* Dugme za brisanje */}
                       <TouchableOpacity
                         style={styles.deleteButton}
                         onPress={() => handleDelete(r.id)}
@@ -143,6 +145,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#a3e635',
     borderBottomWidth: 2,
     borderBottomColor: '#262626',
+  },
+  info: {
+    borderWidth: 1.5,
+    borderColor: '#a3e635', 
+    backgroundColor: '#1f1f1f', 
+    borderRadius: 8,
+    padding: 10,
+    marginVertical: 8,
   },
   headerText: {
     fontSize: 20,

@@ -3,13 +3,13 @@ import React, { useRef, useState } from 'react';
 import { firestore as db } from '../config/firebase';
 
 import {
-    Alert,
-    Animated,
-    LayoutChangeEvent,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  Animated,
+  LayoutChangeEvent,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 interface AdminSurveyCardProps {
@@ -35,11 +35,11 @@ export const AdminSurveyCard: React.FC<AdminSurveyCardProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
-  const animation = useRef(new Animated.Value(0)).current; // Use ref for animation to avoid re-renders
+  const animation = useRef(new Animated.Value(0)).current; 
 
   const onContentLayout = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout;
-    setContentHeight(height + 32); // Adjust for padding (16 top + 16 bottom)
+    setContentHeight(height + 32); 
   };
 
 const handleDeleteSurvey = async (id: string) => {
@@ -66,15 +66,14 @@ const handleDeleteSurvey = async (id: string) => {
     Animated.timing(animation, {
       toValue: isExpanded ? 0 : 1,
       duration: 300,
-      useNativeDriver: false, // maxHeight doesn't support native driver
+      useNativeDriver: false,
     }).start();
     setIsExpanded(!isExpanded);
   };
 
-  // Interpolate maxHeight for animation
   const contentMaxHeight = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, contentHeight], // Collapse to 0, expand to content height
+    outputRange: [0, contentHeight], 
   });
 
   const getOptionStats = (optionId: string) => {
@@ -83,7 +82,6 @@ const handleDeleteSurvey = async (id: string) => {
     return `${percentage}% (${votes})`;
   };
 
-  // Render content (visible or hidden for measurement)
   const renderContent = () => (
     <View style={[styles.content, !isExpanded && styles.hiddenContent]} onLayout={onContentLayout}>
       <Text style={styles.question}>{question}</Text>
@@ -95,10 +93,6 @@ const handleDeleteSurvey = async (id: string) => {
           </View>
         ))}
       </View>
-      {/* <View style={styles.doleText}>
-      <Text style={styles.deleteText}>obriši</Text>
-      <Text style={styles.totalVotes}>Ukupno glasova: {totalVotes}</Text>
-      </View> */}
       {
         isDeletable ? 
           <View style={styles.doleText}>
@@ -130,13 +124,12 @@ const handleDeleteSurvey = async (id: string) => {
           styles.contentContainer,
           {
             maxHeight: contentMaxHeight,
-            opacity: animation, // Fade in/out with maxHeight
+            opacity: animation, 
           },
         ]}
       >
         {renderContent()}
       </Animated.View>
-      {/* Hidden content for measurement when collapsed */}
       {!isExpanded && (
         <View style={[styles.hiddenContent, { position: 'absolute', top: -9999 }]}>
           {renderContent()}
@@ -159,7 +152,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 4,
-    overflow: 'hidden', // Prevent content from overflowing during animation
+    overflow: 'hidden', 
   },
   header: {
     padding: 16,
@@ -173,14 +166,14 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   contentContainer: {
-    overflow: 'hidden', // Clip content during collapse
+    overflow: 'hidden', 
   },
   content: {
     padding: 16,
     backgroundColor: '#262626',
   },
   hiddenContent: {
-    opacity: 0, // Hidden but measurable
+    opacity: 0, 
   },
   question: {
     fontSize: 16,
@@ -213,23 +206,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#a3e635',
   },
-//   doleText:{
-//     display: 'flex',
-//     flexDirection: 'row',
-//     justifyContent: 'space-between'
-//   },
   totalVotes: {
     fontSize: 14,
     fontWeight: '600',
     color: '#E0E0E0',
     textAlign: 'right',
   },  
-//   deleteText: {
-//     fontSize: 14,
-//     fontWeight: '600',
-//     color: '#ca1b1bff',
-//     textAlign: 'left',
-//   },
 doleText: {
   flexDirection: 'row',
   justifyContent: 'space-between',
@@ -240,7 +222,7 @@ doleText: {
 deleteButton: {
   flexDirection: 'row',
   alignItems: 'center',
-  backgroundColor: '#3a0000', // tamno crvena pozadina
+  backgroundColor: '#3a0000', 
   borderRadius: 6,
   paddingHorizontal: 10,
   paddingVertical: 6,

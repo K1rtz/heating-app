@@ -54,7 +54,6 @@ const Login = () => {
               />
             </View>
 
-            {/* Password */}
             <View style={styles.passwordWrapper}>
               <TextInput
               onChangeText={value=>passwordRef.current = value}
@@ -69,22 +68,7 @@ const Login = () => {
               </TouchableOpacity>
             </View>
 
-            {/* Sign In Button */}
             <View style={styles.buttonWrapper}>
-              {/* {isLoading ? ( */}
-                {/* <View style={styles.loadingWrapper}> */}
-                  {/* <TouchableOpacity style={styles.signInButton}> */}
-                    {/* <View> */}
-                      {/* <Loading size={hp(2.2)} /> */}
-                    {/* </View> */}
-                  {/* </TouchableOpacity> */}
-                  {/* <Pressable>
-                    <Text style={styles.noAccountText}>
-                      Don't have an account?
-                    </Text>
-                  </Pressable>
-                </View>
-              ) : ( */}
                 <View style={styles.loadingWrapper}>
                   <TouchableOpacity  onPress={handleLogin} style={styles.signInButton}>
                     <Text style={styles.signInButtonText}>Prijava</Text>
@@ -98,12 +82,10 @@ const Login = () => {
                     </Pressable>
                   </TouchableOpacity>
                 </View>
-              {/* )} */}
             </View>
           </View>
         </View>
       </ImageBackground>
-    {/* </View> */}
     </ScreenWrapper>
   )
 }

@@ -10,7 +10,7 @@ const CreateSurvey = () => {
   const [title, setTitle] = useState('');
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState<string[]>(['']);
-  const [duration, setDuration] = useState('24h'); // Default to 24 hours
+  const [duration, setDuration] = useState('24h'); 
 
   const handleAddOption = () => {
     setOptions([...options, '']);
@@ -48,7 +48,6 @@ const CreateSurvey = () => {
         initialOptionsCount[idx.toString()] = 0;
       });
 
-      // Calculate endDate based on duration
       const now = new Date();
       let endDate: Date;
       switch (duration) {
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
   picker: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 15, // Increased for more noticeable rounding
+    borderRadius: 15, 
     color: 'white',
     backgroundColor: '#333',
     overflow: 'hidden',

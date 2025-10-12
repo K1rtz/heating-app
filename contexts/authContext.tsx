@@ -29,7 +29,7 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
                         data?.floor
                     );
 
-                    const userData: any ={ //userType
+                    const userData: any ={ 
                         uid: firebaseUser.uid,
                         email: firebaseUser.email,
                         name: data?.name || null,
@@ -99,29 +99,7 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
             return {success:false, msg}
         }
     }
-
-    // const updateUserData = async( uid: string) =>{
-    //     try{
-    //         const docRef = doc(firestore, "users", uid);
-    //         const docSnap = await getDoc(docRef);
-    //         if(docSnap.exists()){
-    //             const data = docSnap.data();
-    //             const userData: UserType = {
-    //                 uid: data?.uid,
-    //                 email: data?.email || null,
-    //                 name: data.name || null,
-    //                 role: data?.role || "customer"
-    //             };
-    //             setUser({...userData});
-    //         }
-    //     }
-    //     catch(error : any){
-    //         let msg = error.message;
-    //         // return {success:false, msg}
-    //         console.log('error:', error);
-    //     }
-             
-    // }
+    
     const updateUserData = async (uid: string) => {
         try {
             const docRef = doc(firestore, "users", uid);

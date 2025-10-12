@@ -18,9 +18,6 @@ type Option = {
   };
 
 const sendSurvey = (selected: string | null, onBack: () => void) => {
-  // Ovo treba da se upise u bazu!
-  // Jos uvek nemamo ankete u bazi podataka! idAnkete nije relevantan
-  console.log("Posalji podatke u bazu! Podaci: idKorisnika ", user?.uid, ", idAnkete ", 12, ", ocena ", selected);
   onBack(); 
 };
 
@@ -42,7 +39,7 @@ const sendSurvey = (selected: string | null, onBack: () => void) => {
           key={option.id}
           style={[
             styles.optionButton,
-            selected === option.id && styles.selectedOption, // ako je kliknuto
+            selected === option.id && styles.selectedOption,
           ]}
           onPress={() => handleSelect(option.id)}
         >
@@ -108,7 +105,6 @@ const styles = StyleSheet.create({
       marginBottom: 15,
     },
     selectedOption: {
-      //backgroundColor: "black",
       borderColor: "black",
       borderWidth: 2,
       borderRadius: 5,

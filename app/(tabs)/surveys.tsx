@@ -2,12 +2,12 @@ import { SurveyCard as Sc } from "@/components/cardtest";
 import Header from "@/components/Header";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { useAuth } from "@/contexts/authContext";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getAuth } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, query, Timestamp, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { firestore as db } from '../../config/firebase';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 interface Survey {
@@ -48,16 +48,8 @@ const Surveys = () => {
       const fetchedSurveys: Survey[] = [];
       for (const docSnapshot of querySnapshot.docs) {
         const surveyData = docSnapshot.data();
-        // Check if user has responded
         const responseRef = doc(db, `surveys/${docSnapshot.id}/responses`, userId);
         const responseSnap = await getDoc(responseRef);
-        
-        // Debug: Log responseSnap to verify
-        // console.log(`Survey ${docSnapshot.id} response for user ${userId}:`, {
-        //   exists: responseSnap.exists(),
-        //   data: responseSnap.data(),
-        //   path: responseRef.path,
-        // });
 
         const hasAnswered = responseSnap.exists();
 

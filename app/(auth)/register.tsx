@@ -49,7 +49,6 @@ const Register = () => {
               Registracija
             </Text>
 
-            {/* Email */}
             <View style={styles.inputWrapper}>
               <TextInput
                 onChangeText={value=>emailRef.current = value}
@@ -61,7 +60,6 @@ const Register = () => {
               />
             </View>
 
-            {/* Password */}
             <View style={styles.passwordWrapper}>
               <TextInput
                 onChangeText={value=>passwordRef.current = value}
@@ -81,22 +79,7 @@ const Register = () => {
               />
             </View>
 
-            {/* Sign In Button */}
             <View style={styles.buttonWrapper}>
-              {/* {isLoading ? ( */}
-                {/* <View style={styles.loadingWrapper}> */}
-                  {/* <TouchableOpacity style={styles.signInButton}> */}
-                    {/* <View> */}
-                      {/* <Loading size={hp(2.2)} /> */}
-                    {/* </View> */}
-                  {/* </TouchableOpacity> */}
-                  {/* <Pressable>
-                    <Text style={styles.noAccountText}>
-                      Don't have an account?
-                    </Text>
-                  </Pressable>
-                </View>
-              ) : ( */}
                 <View style={styles.loadingWrapper}>
                   <TouchableOpacity  onPress={handleRegistration} style={styles.signInButton}>
                     <Text style={styles.signInButtonText}>Kreiraj nalog</Text>
@@ -123,7 +106,7 @@ export default Register
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: "#000", // fallback ako se slika ne učita
+    backgroundColor: "#000", 
   },
   centerWrapper: {
     flex: 1,
@@ -132,16 +115,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   formContainer: {
-    backgroundColor: 'rgba(25, 25, 25, 0.8)', // tamno siva sa providnošću
+    backgroundColor: 'rgba(25, 25, 25, 0.8)', 
     padding: 28,
     width: '95%',
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: 'rgba(22, 17, 17, 1)', // zlatna nijansa na ivici
+    borderColor: 'rgba(22, 17, 17, 1)', 
   },
   title: {
     fontSize: 28,
-    color: '#ffffffff', // zlatno/žuta boja
+    color: '#ffffffff', 
     textAlign: 'center',
     marginBottom: 24,
     letterSpacing: 2,
@@ -151,7 +134,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.03)',
     borderWidth: 1,
-    borderColor: 'rgba(22, 17, 17, 1)', // diskretna žuta ivica
+    borderColor: 'rgba(22, 17, 17, 1)', 
     borderRadius: 12,
     marginBottom: 20,
     paddingHorizontal: 12,
@@ -190,7 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 signInButton: {
-  backgroundColor: '#1c1c1c', // tamno siva - osnovna boja dugmeta
+  backgroundColor: '#1c1c1c', 
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
@@ -198,7 +181,7 @@ signInButton: {
   width: '100%',
   paddingVertical: 14,
   borderWidth: 1,
-  borderColor: 'rgba(0, 0, 0, 0.97)', // diskretna zlatna ivica
+  borderColor: 'rgba(0, 0, 0, 0.97)', 
   shadowColor: '#000',
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.5,

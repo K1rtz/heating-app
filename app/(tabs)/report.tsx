@@ -20,7 +20,6 @@ export default function ReportScreen() {
 
 
   const posaljiReport = async () => {
-    // console.log(user);
     if (!opis.trim()) {
       Alert.alert("Greška", "Unesite opis problema.");
       return;

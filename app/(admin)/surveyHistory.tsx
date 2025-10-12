@@ -2,7 +2,7 @@ import ScreenWrapper from '@/components/ScreenWrapper';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { AdminSurveyCard } from '../../components/AdminSurveyCard'; // Adjust path as needed
+import { AdminSurveyCard } from '../../components/AdminSurveyCard';
 import { firestore as db } from '../../config/firebase';
 
 interface Survey {
@@ -94,26 +94,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 20,
-    backgroundColor: '#a3e635', // Greenish header
+    backgroundColor: '#a3e635', 
     borderBottomWidth: 2,
-    borderBottomColor: '#262626', // Navbar color
+    borderBottomColor: '#262626', 
   },
   headerText: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#000000', // Black for contrast
+    color: '#000000', 
   },
   container: {
     flex: 1,
     paddingLeft: 16,
     paddingRight: 16,
-    backgroundColor: '#171717', // Dark background
+    backgroundColor: '#171717', 
   },
   loadingText: {
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
-    color: '#E0E0E0', // Light gray for readability
+    color: '#E0E0E0', 
   },
   noSurveysText: {
     fontSize: 16,

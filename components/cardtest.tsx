@@ -1,3 +1,4 @@
+import { colors } from '@/constants/theme';
 import { useAuth } from '@/contexts/authContext';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import React, { useRef, useState } from 'react';
@@ -11,7 +12,6 @@ import {
   View,
 } from 'react-native';
 import { firestore as db } from '../config/firebase';
-import { colors } from '@/constants/theme';
 
 interface SurveyCardProps {
   surveyId: string;
@@ -19,7 +19,7 @@ interface SurveyCardProps {
   question: string;
   options: string[];
   hasAnswered: boolean;
-  onSubmit?: () => void; // Optional callback to refresh surveys
+  onSubmit?: () => void; 
 }
 
 export const SurveyCard: React.FC<SurveyCardProps> = ({ surveyId, surveyName, question,
@@ -118,7 +118,7 @@ export const SurveyCard: React.FC<SurveyCardProps> = ({ surveyId, surveyName, qu
     const success = await submitSurveyResponse(surveyId, user.uid, selectedOption, user.district);
     if (success) {
       setSelectedOption(null); 
-      onSubmit?.(); // Refresh surveys
+      onSubmit?.(); 
     }
   };
 
@@ -206,14 +206,14 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   contentContainer: {
-    overflow: 'hidden', // Clip content during collapse
+    overflow: 'hidden', 
   },
   content: {
     padding: 16,
     backgroundColor: '#262626',
   },
   hiddenContent: {
-    opacity: 0, // Hidden but measurable
+    opacity: 0, 
   },
   question: {
     fontSize: 16,
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   },
 
   answeredCard: {
-    backgroundColor: '#d3d3d3', // Gray for answered surveys
+    backgroundColor: '#d3d3d3', 
   },
   optionButton: {
     padding: 10,
@@ -265,7 +265,6 @@ const styles = StyleSheet.create({
   },
   selectedOption: {
     backgroundColor: '#7fff661f',
-    // borderColor: '#007AFF',
   },
   disabledButton: {
     backgroundColor: '#a0a0a0',

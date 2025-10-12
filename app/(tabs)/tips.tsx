@@ -1,6 +1,5 @@
 import Header from '@/components/Header';
 import ScreenWrapper from '@/components/ScreenWrapper';
-import { colors } from '@/constants/theme';
 import React, { useState } from 'react';
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -58,9 +57,7 @@ const styles = StyleSheet.create({
 
   pager: { flex: 1 },
   pageContent: {
-    // backgroundColor: 'red',
     alignItems: 'center',
-    // justifyContent: 'center',
     padding: 16
   },
   page: {
