@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import ScreenWrapper from '@/components/ScreenWrapper';
-import { colors } from '@/constants/theme';
-import { AdminSurveyCard } from '../../components/AdminSurveyCard'; // Adjust path as needed
-import { collection, query, where, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, Timestamp, where } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AdminSurveyCard } from '../../components/AdminSurveyCard'; // Adjust path if needed
 import { firestore as db } from '../../config/firebase';
 
 interface Survey {
@@ -33,7 +32,7 @@ const SurveyHistory = () => {
       for (const docSnapshot of querySnapshot.docs) {
         const surveyData = docSnapshot.data();
         const optionsCount = surveyData.optionsCount || {};
-        const totalVotes = Object.values(optionsCount).reduce((sum: number, count: number) => sum + count, 0);
+        const totalVotes = 0; // Ako kasnije računaš glasove, možeš vratiti sumu
 
         fetchedSurveys.push({
           id: docSnapshot.id,
@@ -46,7 +45,7 @@ const SurveyHistory = () => {
       }
       setSurveys(fetchedSurveys);
     } catch (err: any) {
-      Alert.alert('Greška', 'Nije moguće učitati zavrsene ankete: ' + err.message);
+      Alert.alert('Greška', 'Nije moguće učitati završene ankete: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -56,27 +55,48 @@ const SurveyHistory = () => {
     fetchExpiredSurveys();
   }, []);
 
+  const handleDeleteSurvey = async (id: string) => {
+  Alert.alert('Potvrda', 'Da li želite da obrišete ovu anketu?', [
+    { text: 'Otkaži', style: 'cancel' },
+    {
+      text: 'Obriši',
+      style: 'destructive',
+      onPress: async () => {
+        try {
+          await deleteDoc(doc(db, 'surveys', id));
+          setSurveys(prev => prev.filter(s => s.id !== id));
+          Alert.alert('Uspeh', 'Anketa je uspešno obrisana.');
+        } catch (err: any) {
+          Alert.alert('Greška', 'Brisanje nije uspelo: ' + err.message);
+        }
+      },
+    },
+  ]);
+};
+
   return (
     <ScreenWrapper>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Zavrsene Ankete</Text>
+        <Text style={styles.headerText}>Završene Ankete</Text>
       </View>
       <ScrollView style={styles.container}>
         {loading ? (
           <Text style={styles.loadingText}>Učitavanje...</Text>
         ) : surveys.length === 0 ? (
-          <Text style={styles.noSurveysText}>Nema zavrsenih anketa</Text>
+          <Text style={styles.noSurveysText}>Nema završenih anketa</Text>
         ) : (
-          surveys.map(survey => (
-            <AdminSurveyCard
-              key={survey.id}
-              surveyId={survey.id}
-              surveyName={survey.surveyName}
-              question={survey.question}
-              options={survey.options}
-              optionsCount={survey.optionsCount}
-              totalVotes={survey.totalVotes}
-            />
+          surveys.map((survey) => (
+            <View key={survey.id} style={styles.surveyCard}>
+              <AdminSurveyCard
+                surveyId={survey.id}
+                surveyName={survey.surveyName}
+                question={survey.question}
+                options={survey.options}
+                optionsCount={survey.optionsCount}
+                totalVotes={survey.totalVotes}
+                onDelete={handleDeleteSurvey}
+              />
+            </View>
           ))
         )}
       </ScrollView>
@@ -88,31 +108,37 @@ export default SurveyHistory;
 
 const styles = StyleSheet.create({
   header: {
-
     flexDirection: 'row',
     justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 20,
-    backgroundColor: '#a3e635', // Greenish header
+    backgroundColor: '#a3e635',
     borderBottomWidth: 2,
-    borderBottomColor: '#262626', // Navbar color
+    borderBottomColor: '#262626',
   },
   headerText: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#000000', // Black for contrast
+    color: '#000',
   },
   container: {
     flex: 1,
-    paddingLeft: 16,
-    paddingRight: 16,
-    backgroundColor: '#171717', // Dark background
+    paddingHorizontal: 16,
+    backgroundColor: '#171717',
+  },
+  surveyCard: {
+    backgroundColor: '#262626',
+    marginVertical: 10,
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#333',
   },
   loadingText: {
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
-    color: '#E0E0E0', // Light gray for readability
+    color: '#E0E0E0',
   },
   noSurveysText: {
     fontSize: 16,
