@@ -42,7 +42,7 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             <MaterialCommunityIcons
                 name="exclamation-thick"
                 size={32}
-                color={isFocused ? colors.primary : colors.neutral400}
+                color={isFocused ? '#e74a3b' : colors.neutral400}
             />
         ),
 
