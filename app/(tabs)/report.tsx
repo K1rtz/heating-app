@@ -2,14 +2,15 @@ import Header from "@/components/Header";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { colors } from "@/constants/theme";
 import { useAuth } from "@/contexts/authContext";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Picker } from "@react-native-picker/picker";
 import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import ModalSelector from 'react-native-modal-selector';
 import { firestore as db } from "../../config/firebase";
 
-// const user = auth.currentUser;
-// const []
+
+
 
 export default function ReportScreen() {
   
@@ -19,7 +20,7 @@ export default function ReportScreen() {
 
 
   const posaljiReport = async () => {
-    console.log(user);
+    // console.log(user);
     if (!opis.trim()) {
       Alert.alert("Greška", "Unesite opis problema.");
       return;
@@ -60,39 +61,43 @@ export default function ReportScreen() {
     }
   };
 
-  const options = [
-    { key: 'tehnicki', label: 'Tehnički problem' },
-    { key: 'administrativni', label: 'Administrativni problem' },
-    { key: 'korisnicki', label: 'Korisnički problem' },
-    { key: 'infrastrukturni', label: 'Infrastrukturni problem' },
-    { key: 'predlog', label: 'Predlog za unapređenje' },
-    { key: 'drugo', label: 'Drugo' },
-  ];
+  const typeOptions = [
+  { label: 'Tehnički problem', value: 'tehnicki' },
+  { label: 'Administrativni problem', value: 'administrativni' },
+  { label: 'Korisnički problem', value: 'korisnicki' },
+  { label: 'Infrastrukturni problem', value: 'infrastrukturni' },
+  { label: 'Predlog za unapređenje', value: 'predlog' },
+  { label: 'Drugo', value: 'drugo' },
+];
 
   return (
     <ScreenWrapper>
       <Header text="Prijava problema" />
       <View style={styles.container}>
         <View style={styles.report}>
-          <Text style={styles.label}>Izaberi tip prijave:</Text>
-          <ModalSelector
-            data={options}
-            initValue="Izaberi tip prijave"
-            initValueTextStyle={{color:"white", fontSize:18, alignSelf:"flex-start", padding:3}}
-            onChange={(option) => setTip(option.key)}
-            style={{ backgroundColor: '#262626', borderRadius: 8 }}
-            selectStyle={{ backgroundColor: '#262626', borderRadius: 8 }}
-            selectTextStyle={{ color: '#fff' }}
-            optionTextStyle={{ color: '#fff', fontSize:18 }}
-            optionContainerStyle={{ backgroundColor: '#000' }}
-            cancelTextStyle={{ color: 'black', fontSize:18 }}
-          />
+          <View style={styles.pickerContainer}>
+            <Text style={styles.label}>Izaberi tip prijave:</Text>
+            <View style={styles.pickerWrapper}>
+              <Picker
+                selectedValue={tip}
+                onValueChange={(itemValue) => setTip(itemValue)}
+                dropdownIconColor="#fff"
+                style={styles.picker}
+                itemStyle={styles.pickerItem}
+              >
+                {typeOptions.map((opt) => (
+                  <Picker.Item key={opt.value} label={opt.label} value={opt.value} />
+                ))}
+              </Picker>
+            </View>
+          </View>
+
 
           <Text style={styles.label2}>Opis problema:</Text>
           <TextInput
             style={styles.input}
             multiline
-            numberOfLines={6} // Increased from 4 to 6 for better visibility
+            numberOfLines={6}
             placeholder="Unesite opis..."
             placeholderTextColor="white"
             value={opis}
@@ -104,11 +109,64 @@ export default function ReportScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      {!user?.isProfileComplete && (
+      <View style={styles.overlay}>
+        <MaterialCommunityIcons name='information-outline' size={50} color="#FFD700" />
+        <Text style={styles.overlayText}>
+          Molimo popunite profil pre pristupa anketama
+        </Text>
+      </View>
+    )}
     </ScreenWrapper>
   );
 }
 
 const styles = StyleSheet.create({
+    overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.8)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  overlayText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+    marginTop: 16,
+    textAlign: "center",
+  },
+    pickerContainer: {
+    marginTop: 15,
+  },
+  pickerWrapper: {
+    backgroundColor: '#262626',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#333',
+    overflow: 'hidden',
+  },
+  picker: {
+    color: '#fff',
+    fontSize: 18,
+    height: 60,
+    width: '100%',
+  },
+  pickerItem: {
+    color: '#fff',
+    fontSize: 16,
+    backgroundColor: '#262626',
+  },
+  label: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 10,
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -128,8 +186,8 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     alignItems: "center",
-    justifyContent: "flex-start", // Changed from center to flex-start
-    paddingTop: 20, // Added padding to create space below header
+    justifyContent: "flex-start", 
+    paddingTop: 20,
   },
   report: {
     backgroundColor: '#262626',
@@ -145,12 +203,6 @@ const styles = StyleSheet.create({
     width: 350,
     padding: 16,
     elevation: 4,
-  },
-  label: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 15,
   },
   label2: {
     color: "white",
@@ -168,7 +220,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     fontSize: 18,
     color: "white",
-    minHeight: 120, // Added to ensure larger input area
+    minHeight: 120,
   },
   button: {
     backgroundColor: "#ef4444",

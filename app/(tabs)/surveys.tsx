@@ -7,6 +7,8 @@ import { collection, doc, getDoc, getDocs, query, Timestamp, where } from "fireb
 import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { firestore as db } from '../../config/firebase';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 interface Survey {
   id: string;
@@ -25,14 +27,13 @@ const Surveys = () => {
   const userId = auth.currentUser?.uid;
 
   const {user} = useAuth();
-
+  console.log(user?.isProfileComplete);
   const fetchActiveSurveys = async () => {
     if (!userId) {
       Alert.alert('Greška', 'Niste prijavljeni!');
       setLoading(false);
       return;
     }
-    console.log(userId, user?.uid)
 
     try {
       setLoading(true);
@@ -52,13 +53,13 @@ const Surveys = () => {
         const responseSnap = await getDoc(responseRef);
         
         // Debug: Log responseSnap to verify
-        console.log(`Survey ${docSnapshot.id} response for user ${userId}:`, {
-          exists: responseSnap.exists(),
-          data: responseSnap.data(),
-          path: responseRef.path,
-        });
+        // console.log(`Survey ${docSnapshot.id} response for user ${userId}:`, {
+        //   exists: responseSnap.exists(),
+        //   data: responseSnap.data(),
+        //   path: responseRef.path,
+        // });
 
-        const hasAnswered = responseSnap.exists(); // Use exists() for compatibility
+        const hasAnswered = responseSnap.exists();
 
         fetchedSurveys.push({
           id: docSnapshot.id,
@@ -79,11 +80,10 @@ const Surveys = () => {
 
   useEffect(() => {
     fetchActiveSurveys();
-  }, [userId]); // Add userId as dependency to refetch if user changes
+  }, [userId]); 
 
   return (
     <ScreenWrapper>
-
       <Header text='Aktuelne Ankete'/>
       <ScrollView style={styles.container}>
         {loading ? (
@@ -104,6 +104,14 @@ const Surveys = () => {
           ))
         )}
       </ScrollView>
+          {!user?.isProfileComplete && (
+      <View style={styles.overlay}>
+        <MaterialCommunityIcons name='information-outline' size={50} color="#FFD700" />
+        <Text style={styles.overlayText}>
+          Molimo popunite profil pre pristupa anketama
+        </Text>
+      </View>
+    )}
     </ScreenWrapper>
   );
 };
@@ -127,5 +135,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     color: 'white',
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.8)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  overlayText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+    marginTop: 16,
+    textAlign: "center",
   },
 });

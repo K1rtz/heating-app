@@ -1,12 +1,7 @@
-import { Timestamp } from "firebase/firestore";
-import { Icon } from "phosphor-react-native";
-import React, { ReactNode } from "react";
+import React from "react";
 import {
-  TextInput,
-  TextInputProps,
   TextProps,
   TextStyle,
-  TouchableOpacityProps,
   ViewStyle
 } from "react-native";
 
@@ -43,6 +38,7 @@ export type UserType = {
   district?: string,
   address?: string,
   floor?: number,
+  isProfileComplete?: boolean,
 } | null;
 
 export type UserDataType = {

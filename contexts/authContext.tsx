@@ -12,8 +12,7 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
     const router = useRouter();
 
     useEffect(()=>{
-        const  unsub = onAuthStateChanged(auth, async (firebaseUser) =>{
-            // console.log('firebase user', firebaseUser);
+        const  unsub = onAuthStateChanged(auth, async (firebaseUser) =>{            
 
             if(firebaseUser){
                 const docRef = doc(firestore, "users", firebaseUser.uid);
@@ -21,6 +20,14 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
 
                 if(docSnap.exists()){
                     const data = docSnap.data();
+
+                    const isProfileComplete = !!(
+                        data?.firstName &&
+                        data?.lastName &&
+                        data?.district &&
+                        data?.address &&
+                        data?.floor
+                    );
 
                     const userData: any ={ //userType
                         uid: firebaseUser.uid,
@@ -32,6 +39,7 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
                         district: data?.district,
                         address: data?.address,
                         floor: data?.floor,
+                        isProfileComplete,
                     }
                     setUser(userData);
                     if(data?.role == "admin"){
@@ -92,28 +100,54 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
         }
     }
 
-    const updateUserData = async( uid: string) =>{
-        try{
+    // const updateUserData = async( uid: string) =>{
+    //     try{
+    //         const docRef = doc(firestore, "users", uid);
+    //         const docSnap = await getDoc(docRef);
+    //         if(docSnap.exists()){
+    //             const data = docSnap.data();
+    //             const userData: UserType = {
+    //                 uid: data?.uid,
+    //                 email: data?.email || null,
+    //                 name: data.name || null,
+    //                 role: data?.role || "customer"
+    //             };
+    //             setUser({...userData});
+    //         }
+    //     }
+    //     catch(error : any){
+    //         let msg = error.message;
+    //         // return {success:false, msg}
+    //         console.log('error:', error);
+    //     }
+             
+    // }
+    const updateUserData = async (uid: string) => {
+        try {
             const docRef = doc(firestore, "users", uid);
             const docSnap = await getDoc(docRef);
-            if(docSnap.exists()){
+            if (docSnap.exists()) {
                 const data = docSnap.data();
                 const userData: UserType = {
                     uid: data?.uid,
                     email: data?.email || null,
-                    name: data.name || null,
-                    role: data?.role || "customer"
+                    name: data?.name || null,
+                    role: data?.role || "customer",
+                    firstName: data?.firstName || "",
+                    lastName: data?.lastName || "",
+                    district: data?.district || "",
+                    address: data?.address || "",
+                    floor: data?.floor || "",
+                    isProfileComplete: !!(data?.firstName && data?.lastName && data?.district && data?.address && data?.floor),
+
                 };
-                setUser({...userData});
+                setUser({ ...userData });
             }
+        } catch (error: any) {
+            console.log("error:", error);
         }
-        catch(error : any){
-            let msg = error.message;
-            // return {success:false, msg}
-            console.log('error:', error);
-        }
-             
-    }
+    };
+
 
     const contextValue: AuthContextType = {
         user,

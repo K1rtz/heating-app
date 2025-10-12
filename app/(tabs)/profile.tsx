@@ -18,6 +18,16 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [district, setDistrict] = useState('');
 
+  React.useEffect(() => {
+    if (isEditing && user) {
+      setFirstName(user.firstName || '');
+      setLastName(user.lastName || '');
+      setDistrict(user.district || '');
+      setAddress(user.address || '');
+      setFloor(user.floor !== undefined && user.floor !== null ? String(user.floor) : '');
+    }
+  }, [isEditing, user]);
+
   const districtOptions = [
     'Crveni Krst',
     'Pantelej',
@@ -25,16 +35,19 @@ const Profile = () => {
     'Niska Banja',
     'Medijana',
   ];
+// const { user } = useAuth();
+
+  const { updateUserData } = useAuth(); 
 
   const handleFinalize = async () => {
     try {
-      const user = auth.currentUser;
-      if (!user) {
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
         Alert.alert('Greška', 'Nema aktivnog korisnika.');
         return;
       }
 
-      const userRef = doc(firestore, 'users', user.uid);
+      const userRef = doc(firestore, 'users', currentUser.uid);
       await updateDoc(userRef, {
         firstName,
         lastName,
@@ -42,8 +55,12 @@ const Profile = () => {
         address,
         floor,
       });
+      await updateUserData(currentUser.uid);
 
       Alert.alert('Uspešno', 'Profil je sačuvan!');
+      console.log(user)
+      console.log('isProfileComplete:', user?.isProfileComplete);
+
       setIsEditing(false);
     } catch (err: any) {
       Alert.alert('Greška', err.message);
