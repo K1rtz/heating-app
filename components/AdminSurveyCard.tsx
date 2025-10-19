@@ -139,20 +139,129 @@ const handleDeleteSurvey = async (id: string) => {
   );
 };
 
+// const styles = StyleSheet.create({
+//   card: {
+//     backgroundColor: '#262626',
+//     borderRadius: 12,
+//     marginVertical: 12,
+//     marginHorizontal: 16,
+//     borderWidth: 1,
+//     borderColor: '#333333',
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.3,
+//     shadowRadius: 4,
+//     elevation: 4,
+//     overflow: 'hidden', 
+//   },
+//   header: {
+//     padding: 16,
+//     backgroundColor: '#a3e635',
+//     borderTopLeftRadius: 12,
+//     borderTopRightRadius: 12,
+//   },
+//   surveyName: {
+//     fontSize: 18,
+//     fontWeight: '700',
+//     color: '#000000',
+//   },
+//   contentContainer: {
+//     overflow: 'hidden', 
+//   },
+//   content: {
+//     padding: 16,
+//     backgroundColor: '#262626',
+//   },
+//   hiddenContent: {
+//     opacity: 0, 
+//   },
+//   question: {
+//     fontSize: 16,
+//     fontWeight: '600',
+//     color: '#E0E0E0',
+//     marginBottom: 12,
+//   },
+//   optionsContainer: {
+//     marginBottom: 12,
+//   },
+//   optionRow: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     padding: 12,
+//     backgroundColor: '#2E2E2E',
+//     borderRadius: 8,
+//     marginVertical: 6,
+//     borderWidth: 1,
+//     borderColor: '#3A3A3A',
+//   },
+//   optionText: {
+//     fontSize: 14,
+//     fontWeight: '500',
+//     color: '#E0E0E0',
+//     flex: 1,
+//   },
+//   optionStats: {
+//     fontSize: 14,
+//     fontWeight: '600',
+//     color: '#a3e635',
+//   },
+//   totalVotes: {
+//     fontSize: 14,
+//     fontWeight: '600',
+//     color: '#E0E0E0',
+//     textAlign: 'right',
+//   },  
+// doleText: {
+//   flexDirection: 'row',
+//   justifyContent: 'space-between',
+//   alignItems: 'center',
+//   marginTop: 10,
+// },
+
+// deleteButton: {
+//   flexDirection: 'row',
+//   alignItems: 'center',
+//   backgroundColor: '#3a0000', 
+//   borderRadius: 6,
+//   paddingHorizontal: 10,
+//   paddingVertical: 6,
+//   borderWidth: 1,
+//   borderColor: '#ca1b1bff',
+//   shadowColor: '#ca1b1bff',
+//   shadowOffset: { width: 0, height: 2 },
+//   shadowOpacity: 0.3,
+//   shadowRadius: 4,
+// },
+
+// deleteIcon: {
+//   color: '#ca1b1bff',
+//   fontSize: 14,
+//   marginRight: 6,
+//   fontWeight: '700',
+// },
+
+// deleteText: {
+//   fontSize: 14,
+//   fontWeight: '600',
+//   color: '#ca1b1bff',
+// },
+// });
+
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#262626',
+    backgroundColor: '#fafafa',
     borderRadius: 12,
     marginVertical: 12,
     marginHorizontal: 16,
     borderWidth: 1,
-    borderColor: '#333333',
+    borderColor: '#e0e0e0',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 4,
-    overflow: 'hidden', 
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
+    overflow: 'hidden',
   },
   header: {
     padding: 16,
@@ -163,22 +272,22 @@ const styles = StyleSheet.create({
   surveyName: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#000000',
+    color: '#000', 
   },
   contentContainer: {
-    overflow: 'hidden', 
+    overflow: 'hidden',
   },
   content: {
     padding: 16,
-    backgroundColor: '#262626',
+    backgroundColor: '#ffffff',   
   },
   hiddenContent: {
-    opacity: 0, 
+    opacity: 0,
   },
   question: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#E0E0E0',
+    color: '#333',
     marginBottom: 12,
   },
   optionsContainer: {
@@ -189,63 +298,60 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 12,
-    backgroundColor: '#2E2E2E',
+    backgroundColor: '#f0f0f0',
     borderRadius: 8,
     marginVertical: 6,
     borderWidth: 1,
-    borderColor: '#3A3A3A',
+    borderColor: '#d6d6d6',
   },
   optionText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#E0E0E0',
+    color: '#333', 
     flex: 1,
   },
   optionStats: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#a3e635',
+    color: '#4caf50',
   },
   totalVotes: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#E0E0E0',
+    color: '#333',
     textAlign: 'right',
-  },  
-doleText: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginTop: 10,
-},
-
-deleteButton: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  backgroundColor: '#3a0000', 
-  borderRadius: 6,
-  paddingHorizontal: 10,
-  paddingVertical: 6,
-  borderWidth: 1,
-  borderColor: '#ca1b1bff',
-  shadowColor: '#ca1b1bff',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.3,
-  shadowRadius: 4,
-},
-
-deleteIcon: {
-  color: '#ca1b1bff',
-  fontSize: 14,
-  marginRight: 6,
-  fontWeight: '700',
-},
-
-deleteText: {
-  fontSize: 14,
-  fontWeight: '600',
-  color: '#ca1b1bff',
-},
+  },
+  doleText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  deleteButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fcdada',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: '#ca1b1b',
+    shadowColor: '#ca1b1b',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+  },
+  deleteIcon: {
+    color: '#ca1b1b',
+    fontSize: 14,
+    marginRight: 6,
+    fontWeight: '700',
+  },
+  deleteText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#ca1b1b',
+  },
 });
 
 export default AdminSurveyCard;

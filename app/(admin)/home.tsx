@@ -1,25 +1,18 @@
 import ScreenWrapper from '@/components/ScreenWrapper';
 import { auth } from '@/config/firebase';
 import { colors } from '@/constants/theme';
+import { useAuth } from '@/contexts/authContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
-import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
-import * as Icons from 'phosphor-react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { AdminSurveyCard } from '../../components/AdminSurveyCard';
-import { firestore as db } from '../../config/firebase';
 
-interface Survey {
-  id: string;
-  surveyName: string;
-  question: string;
-  options: { id: string; text: string }[];
-  optionsCount: Record<string, number>;
-  totalVotes: number;
-}
+const HomeAdmin = () => {
+  const { user } = useAuth();
+  const router = useRouter();
 
-const handleLogout = async () => {
+  const handleLogout = async () => {
     try {
       await signOut(auth);
     } catch (err: any) {
@@ -27,149 +20,212 @@ const handleLogout = async () => {
     }
   };
 
-const Home = () => {
-  const [surveys, setSurveys] = useState<Survey[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchActiveSurveys = async () => {
-    try {
-      setLoading(true);
-      const now = new Date();
-      const surveysQuery = query(
-        collection(db, 'surveys'),
-        where('status', '==', 'active'),
-        where('endDate', '>', Timestamp.fromDate(now))
-      );
-      const querySnapshot = await getDocs(surveysQuery);
-
-      const fetchedSurveys: Survey[] = [];
-      for (const docSnapshot of querySnapshot.docs) {
-        const surveyData = docSnapshot.data();
-        const optionsCount: Record<string, number> = surveyData.optionsCount || {};
-        const totalVotes = Object.values(optionsCount).reduce((sum, count) => sum + count, 0);
-
-        fetchedSurveys.push({
-          id: docSnapshot.id,
-          surveyName: surveyData.title,
-          question: surveyData.question,
-          options: surveyData.options,
-          optionsCount,
-          totalVotes,
-        });
-      }
-      setSurveys(fetchedSurveys);
-    } catch (err: any) {
-      Alert.alert('Greška', 'Nije moguće učitati ankete: ' + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchActiveSurveys();
-  }, []);
-
   return (
     <ScreenWrapper>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+
       <View style={styles.header}>
-          <TouchableOpacity style={styles.iconLeft} onPress={handleLogout}>
-    <MaterialCommunityIcons name="logout-variant" size={24} color="#000" />
-  </TouchableOpacity>
-        <Text style={styles.headerText}>Aktivne Ankete</Text>
-        <TouchableOpacity style={styles.iconRight} onPress={(fetchActiveSurveys)}>
-          <Icons.ArrowsClockwiseIcon size={24} color="black" />
-        </TouchableOpacity>
+        <Text style={styles.headerText}>Administrativni Panel</Text>
       </View>
-      <ScrollView style={styles.container}>
-        {loading ? (
-          <Text style={styles.loadingText}>Učitavanje...</Text>
-        ) : surveys.length === 0 ? (
-          <Text style={styles.noSurveysText}>Nema aktivnih anketa</Text>
-        ) : (
-          surveys.map(survey => (
-            <AdminSurveyCard
-              key={survey.id}
-              surveyId={survey.id}
-              surveyName={survey.surveyName}
-              question={survey.question}
-              options={survey.options}
-              optionsCount={survey.optionsCount}
-              totalVotes={survey.totalVotes}
-              isDeletable = {false}
-            />
-          ))
-        )}
+
+        <View style={styles.introBox}>
+          <Text style={styles.introTitle}>Dobrodošli u administrativni deo aplikacije</Text>
+          <Text style={styles.introText}>
+            Ovde možete upravljati anketama, pratiti odgovore korisnika i pregledati prijave
+            tehničkih problema. Svi podaci se automatski sinhronizuju sa korisničkim delom aplikacije.
+          </Text>
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.mapContainer}>
+
+            <TouchableOpacity
+              style={[styles.mapCard, { borderLeftColor: '#4e73df' }]}
+              onPress={() => router.push('/(admin)/activeSurveys')}
+            >
+              <MaterialCommunityIcons name="note-multiple-outline" size={26} color="#4e73df" />
+              <View style={styles.mapTextBox}>
+                <Text style={styles.mapTitle}>Aktivne ankete</Text>
+                <Text style={styles.mapText}>
+                  Pregledajte i upravljajte svim aktivnim anketama koje su trenutno dostupne korisnicima.
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.mapCard, { borderLeftColor: '#858796' }]}
+              onPress={() => router.push('/(admin)/surveyHistory')}
+            >
+              <MaterialCommunityIcons name="archive-outline" size={26} color="#858796" />
+              <View style={styles.mapTextBox}>
+                <Text style={styles.mapTitle}>Istekle ankete</Text>
+                <Text style={styles.mapText}>
+                  Pregledajte rezultate i arhivu prethodno završenih anketa.
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.mapCard, { borderLeftColor: '#1cc88a' }]}
+              onPress={() => router.push('/(admin)/createSurvey')}
+            >
+              <MaterialCommunityIcons name="note-plus-outline" size={26} color="#1cc88a" />
+              <View style={styles.mapTextBox}>
+                <Text style={styles.mapTitle}>Kreiraj novu anketu</Text>
+                <Text style={styles.mapText}>
+                  Napravite novu anketu i postavite je aktivnim korisnicima.
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.mapCard, { borderLeftColor: '#e74a3b' }]}
+              onPress={() => router.push('/(admin)/receivedReports')}
+            >
+              <MaterialCommunityIcons name="alert-circle-outline" size={26} color="#e74a3b" />
+              <View style={styles.mapTextBox}>
+                <Text style={styles.mapTitle}>Prijave problema</Text>
+                <Text style={styles.mapText}>
+                  Pregledajte sve prijave tehničkih problema koje su korisnici poslali putem aplikacije.
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+          </View>
+        </View>
+
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutCard}>
+          <MaterialCommunityIcons name="logout-variant" size={30} color="#353333ff" />
+          <Text style={styles.logoutText}>Odjavi se</Text>
+        </TouchableOpacity>
+
       </ScrollView>
     </ScreenWrapper>
   );
 };
 
-export default Home;
+export default HomeAdmin;
 
 const styles = StyleSheet.create({
-  header: {
-  height: 70,
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: colors.primary,
-  borderBottomWidth: 2,
-  borderBottomColor: colors.primaryShadow,
-  position: 'relative',
+    header: {
+
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    backgroundColor: colors.primary, 
+    borderBottomWidth: 2,
+    borderBottomColor: '#95d431ff', 
   },
   headerText: {
     fontSize: 20,
     fontWeight: '600',
+    color: '#000000', 
   },
-  iconRight: {
-    position: "absolute",
-    right: 16,  
-    top: "50%",
-    transform: [{ translateY: -12 }], 
+  scrollContent: {
+    paddingBottom: 40,
+    backgroundColor: '#f9f9f9',
   },
-  iconLeft: {
-    position: 'absolute',
-    left: 16,
-    top: '50%',
-    transform: [{ translateY: -12 }],
+  statusBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 14,
+    margin: 16,
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: colors.primary,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  container: {
+  statusText: {
+    marginLeft: 10,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#333333',
+  },
+  introBox: {
+    margin: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  introTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: colors.primary,
+    marginBottom: 6,
+    textAlign: 'left',
+  },
+  introText: {
+    fontSize: 14,
+    color: '#444444',
+    lineHeight: 20,
+    textAlign: 'justify',
+  },
+  section: {
+    marginHorizontal: 16,
+    marginBottom: 20,
+  },
+  mapContainer: {
+    flexDirection: 'column',
+    gap: 12,
+  },
+  mapCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    padding: 14,
+    borderRadius: 10,
+    borderLeftWidth: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+    gap: 12,
+  },
+  mapTextBox: {
     flex: 1,
-    paddingLeft: 16,
-    paddingRight: 16,
   },
-  loadingText: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 20,
-    color: 'white',
+  mapTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#4e4e4e',
+    marginBottom: 4,
   },
-  noSurveysText: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 20,
-    color: 'white',
+  mapText: {
+    fontSize: 13,
+    color: '#555555',
+    lineHeight: 18,
   },
   logoutCard: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#262626',
+    backgroundColor: '#ffffff',
     padding: 14,
     marginHorizontal: 16,
     marginVertical: 16,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#a3e635',
+    borderColor: '#242121ff',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 2,
   },
   logoutText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#E0E0E0',
+    color: '#1b1514ff',
     marginLeft: 8,
-  }
+  },
 });

@@ -10,6 +10,7 @@ const _layout = () => {
       tabBar = {(props)=> <CustomTabs {...props} />}
     >
       <Tabs.Screen name="home" />
+      <Tabs.Screen name="activeSurveys" />
       <Tabs.Screen name="surveyHistory"/>
       <Tabs.Screen name="createSurvey" />
       <Tabs.Screen name="receivedReports" />

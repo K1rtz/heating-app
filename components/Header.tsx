@@ -1,3 +1,4 @@
+import { colors } from '@/constants/theme';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -22,7 +23,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 16,
-    backgroundColor: '#a3e635', 
+    // backgroundColor: '#a3e635', 
+    backgroundColor: colors.primary, 
     borderBottomColor: '#333333',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

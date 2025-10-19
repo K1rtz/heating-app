@@ -1,4 +1,5 @@
 import ScreenWrapper from '@/components/ScreenWrapper';
+import { colors } from '@/constants/theme';
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -78,7 +79,7 @@ const ReceivedReports = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
       {loading ? (
         <Text style={styles.loadingText}>Učitavanje...</Text>
       ) : (
@@ -136,20 +137,100 @@ const ReceivedReports = () => {
 
 export default ReceivedReports;
 
+// const styles = StyleSheet.create({
+//   header: {
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     paddingHorizontal: 16,
+//     paddingVertical: 20,
+//     // backgroundColor: '#a3e635',
+//     backgroundColor: colors.primary,
+//     borderBottomWidth: 2,
+//     borderBottomColor: colors.primaryShadow,
+//   },
+//   info: {
+//     borderWidth: 1.5,
+//     borderColor: '#a3e635', 
+//     backgroundColor: '#1f1f1f', 
+//     borderRadius: 8,
+//     padding: 10,
+//     marginVertical: 8,
+//   },
+//   headerText: {
+//     fontSize: 20,
+//     fontWeight: '600',
+//     color: '#000',
+//   },
+//   loadingText: {
+//     color: 'white',
+//     textAlign: 'center',
+//     marginTop: 20,
+//     fontSize: 16,
+//   },
+//   reportItem: {
+//     backgroundColor: '#2d2d2d',
+//     marginVertical: 6,
+//     marginHorizontal: 12,
+//     padding: 15,
+//     borderRadius: 8,
+//     borderWidth: 1,
+//     borderColor: '#444',
+//   },
+//   expandedItem: {
+//     backgroundColor: '#3a3a3a',
+//   },
+//   titleRow: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//   },
+//   reportTitle: {
+//     color: '#fff',
+//     fontSize: 18,
+//     fontWeight: '600',
+//   },
+//   arrow: {
+//     color: '#fff',
+//     fontSize: 18,
+//   },
+//   detailsContainer: {
+//     marginTop: 8,
+//     paddingTop: 8,
+//     borderTopWidth: 1,
+//     borderTopColor: '#555',
+//   },
+//   detailText: {
+//     color: '#ddd',
+//     fontSize: 16,
+//     marginVertical: 2,
+//   },
+//   deleteButton: {
+//     backgroundColor: 'black',
+//     marginTop: 12,
+//     paddingVertical: 10,
+//     borderRadius: 6,
+//     alignItems: 'center',
+//   },
+//   deleteButtonText: {
+//     color: '#fff',
+//     fontWeight: '600',
+//     fontSize: 16,
+//   },
+// });
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 20,
-    backgroundColor: '#a3e635',
+    backgroundColor: colors.primary,
     borderBottomWidth: 2,
-    borderBottomColor: '#262626',
+    borderBottomColor: colors.primaryShadow,
   },
   info: {
     borderWidth: 1.5,
-    borderColor: '#a3e635', 
-    backgroundColor: '#1f1f1f', 
+    borderColor: colors.primary, 
+    backgroundColor: '#fafafa',
     borderRadius: 8,
     padding: 10,
     marginVertical: 8,
@@ -160,22 +241,22 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   loadingText: {
-    color: 'white',
+    color: '#333',
     textAlign: 'center',
     marginTop: 20,
     fontSize: 16,
   },
   reportItem: {
-    backgroundColor: '#2d2d2d',
+    backgroundColor: '#f7f7f7', 
     marginVertical: 6,
     marginHorizontal: 12,
     padding: 15,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#444',
+    borderColor: '#ddd',
   },
   expandedItem: {
-    backgroundColor: '#3a3a3a',
+    backgroundColor: '#eaeaea',
   },
   titleRow: {
     flexDirection: 'row',
@@ -183,27 +264,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   reportTitle: {
-    color: '#fff',
+    color: '#333',
     fontSize: 18,
     fontWeight: '600',
   },
   arrow: {
-    color: '#fff',
+    color: '#333',
     fontSize: 18,
   },
   detailsContainer: {
     marginTop: 8,
     paddingTop: 8,
     borderTopWidth: 1,
-    borderTopColor: '#555',
+    borderTopColor: '#ccc',
   },
   detailText: {
-    color: '#ddd',
+    color: '#333',
     fontSize: 16,
     marginVertical: 2,
   },
   deleteButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#ff4d4d',
     marginTop: 12,
     paddingVertical: 10,
     borderRadius: 6,

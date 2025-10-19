@@ -2,7 +2,6 @@ import { colors, spacingY } from '@/constants/theme';
 import { verticalScale } from '@/utils/styling';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import * as Icons from 'phosphor-react-native';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -10,24 +9,48 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
 
     const tabberIcons: any ={
         surveyHistory: (isFocused: boolean)=>(
-        <Icons.NoteIcon
-            size={verticalScale(30)}
-            weight={isFocused? 'fill' : 'regular'}
-            color={isFocused? colors.primary : colors.neutral400}
-        />
+        // <Icons.NoteIcon
+        //     size={verticalScale(30)}
+        //     // weight={isFocused? 'fill' : 'regular'}
+        //     weight={isFocused ? 'fill' : 'light'}
+        //     // color={isFocused? colors.primary : colors.neutral400}
+        //     color={isFocused? colors.primary : '#000'}
+        // />
+    <MaterialCommunityIcons
+      name="archive-outline"
+      weight={isFocused ? 'fill' : 'light'}
+      size={28}
+      color={isFocused ? colors.primary : '#000'}
+    />
+        ),
+          activeSurveys: (isFocused: boolean) => (
+            <MaterialCommunityIcons
+                name="note-multiple-outline"
+                size={26}
+                weight={isFocused ? 'fill' : 'light'}
+                // color={isFocused ? colors.primary : colors.neutral400}
+                color={isFocused ? colors.primary : '#000'}
+
+            />
         ),
         createSurvey: (isFocused: boolean)=>(
-        <Icons.NotePencilIcon
-            size={verticalScale(30)}
-            weight={isFocused? 'fill' : 'regular'}
-            color={isFocused? colors.primary : colors.neutral400}
-        />
+            <MaterialCommunityIcons
+                name="note-plus-outline"
+                size={28}
+                weight={isFocused ? 'fill' : 'light'}
+                // color={isFocused ? colors.primary : colors.neutral400}
+                color={isFocused ? colors.primary : '#000'}
+
+            />
         ),
         home: (isFocused: boolean)=>(
             <MaterialCommunityIcons
                 name="home"
                 size={30}
-                color={isFocused ? colors.primary : colors.neutral400}
+                weight={isFocused ? 'fill' : 'light'}
+                // color={isFocused ? colors.primary : colors.neutral400}
+                color={isFocused ? colors.primary : '#000'}
+
             />
         ),
 
@@ -35,14 +58,18 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             <MaterialCommunityIcons
                 name="account-circle-outline"
                 size={32}
-                color={isFocused ? colors.primary : colors.neutral400}
+                weight={isFocused ? 'fill' : 'light'}
+                // color={isFocused ? colors.primary : colors.neutral400}
+                color={isFocused ? colors.primary : '#000'}
             />
         ),
         report: (isFocused: boolean)=>(
             <MaterialCommunityIcons
                 name="exclamation-thick"
-                size={32}
-                color={isFocused ? '#e74a3b' : colors.neutral400}
+                size={30}
+                weight={isFocused ? 'fill' : 'light'}
+                // color={isFocused ? '#e74a3b' : colors.neutral400}
+                color={isFocused ? '#e74a3b' : '#000000'}
             />
         ),
 
@@ -51,7 +78,9 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             <MaterialCommunityIcons
                 name="notebook-edit"
                 size={32}
-                color={isFocused ? colors.primary : colors.neutral400}
+                weight={isFocused ? 'fill' : 'light'}
+                // color={isFocused ? colors.primary : colors.neutral400}
+                color={isFocused ? colors.primary : '#000'}
             />
         ),
 
@@ -59,14 +88,18 @@ export default function CustomTabs({ state, descriptors, navigation } : BottomTa
             <MaterialCommunityIcons
                 name="lightbulb-on-outline"
                 size={32}
-                color={isFocused ? colors.primary : colors.neutral400}
+                weight={isFocused ? 'fill' : 'light'}
+                // color={isFocused ? colors.primary : colors.neutral400}
+                color={isFocused ? colors.primary : '#000'}
             />
         ),
         receivedReports: (isFocused: boolean) => (
             <MaterialCommunityIcons
                 name="exclamation-thick"
-                size={32}
-                color={isFocused ? '#e74a3b' : colors.neutral400}
+                size={28}
+                weight={isFocused ? 'fill' : 'light'}
+                // color={isFocused ? '#e74a3b' : colors.neutral400}
+                color={isFocused ? '#e74a3b' : '#000'}
             />
         ),
 
@@ -131,7 +164,8 @@ const styles = StyleSheet.create({
     tabbar:{flexDirection: 'row',
     width: '100%',
     height: Platform.OS =='ios' ? verticalScale(73) : verticalScale(65),
-    backgroundColor: colors.neutral800,
+    // backgroundColor: colors.neutral800,
+    backgroundColor: '#fff',
     justifyContent: 'space-around',
     alignItems: 'center',
     borderTopColor: colors.neutral700,
@@ -141,10 +175,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         height: Platform.OS =='ios' ? verticalScale(73) : verticalScale(55),
-        backgroundColor: colors.neutral800,
+        backgroundColor: '#fff',
+        // backgroundColor: colors.neutral800,
         justifyContent: 'space-around',
         alignItems: 'center',
-        borderTopColor: colors.neutral700,
+        borderTopColor: '#e0e0e0',
+        // borderTopColor: colors.neutral700,
         borderTopWidth: 1,
     },
     tabbarItem:{

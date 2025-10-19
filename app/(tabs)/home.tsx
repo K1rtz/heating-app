@@ -168,7 +168,7 @@ const Home = () => {
       </View>
 
         <TouchableOpacity onPress={handleLogout} style={styles.logoutCard}>
-          <MaterialCommunityIcons name="logout-variant" size={30} color="#E0E0E0" />
+          <MaterialCommunityIcons name="logout-variant" size={30} color="#353333ff" />
           <Text style={styles.logoutText}>Odjavi se</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -178,10 +178,11 @@ const Home = () => {
 
 export default Home;
 
+// 
 const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 40,
-    backgroundColor: '#171717',
+    backgroundColor: '#f9f9f9',
   },
 
   statusBox: {
@@ -190,20 +191,20 @@ const styles = StyleSheet.create({
     padding: 14,
     margin: 16,
     borderRadius: 10,
-    backgroundColor: '#262626',
+    backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#a3e635',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 2,
   },
   statusText: {
     marginLeft: 10,
     fontSize: 15,
     fontWeight: '500',
-    color: '#E0E0E0',
+    color: '#333333',
   },
 
   introBox: {
@@ -211,7 +212,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 10,
-    backgroundColor: '#262626',
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
   },
   introTitle: {
     fontSize: 18,
@@ -222,7 +225,7 @@ const styles = StyleSheet.create({
   },
   introText: {
     fontSize: 14,
-    color: '#ffffff',
+    color: '#444444',
     lineHeight: 20,
     textAlign: 'justify',
   },
@@ -239,16 +242,16 @@ const styles = StyleSheet.create({
   mapCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#262626',
+    backgroundColor: '#ffffff',
     padding: 14,
     borderRadius: 10,
     borderLeftWidth: 4,
     borderLeftColor: '#a3e635',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 2,
     gap: 12,
   },
   mapTextBox: {
@@ -257,12 +260,12 @@ const styles = StyleSheet.create({
   mapTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#a3e635',
+    color: '#4e4e4e',
     marginBottom: 4,
   },
   mapText: {
     fontSize: 13,
-    color: '#E0E0E0',
+    color: '#555555',
     lineHeight: 18,
   },
 
@@ -273,22 +276,22 @@ const styles = StyleSheet.create({
   },
   linkCard: {
     alignItems: 'center',
-    backgroundColor: '#262626',
+    backgroundColor: '#ffffff',
     padding: 12,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#333333',
+    borderColor: '#dcdcdc',
     width: '30%',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 2,
   },
   linkText: {
     fontSize: 13,
     marginTop: 6,
-    color: '#E0E0E0',
+    color: '#333333',
     fontWeight: '500',
   },
 
@@ -296,23 +299,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#262626',
+    backgroundColor: '#ffffff',
     padding: 14,
     marginHorizontal: 16,
     marginVertical: 16,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#a3e635',
+    borderColor: '#242121ff',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 2,
   },
   logoutText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#E0E0E0',
+    color: '#1b1514ff',
     marginLeft: 8,
   },
 });
+

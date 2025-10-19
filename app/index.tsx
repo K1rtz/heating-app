@@ -16,6 +16,7 @@ const index = () => {
         style={styles.logo}
         resizeMode = "contain"
         source={require("../assets/images/splash.png")}
+        
       />
     </View>
   )

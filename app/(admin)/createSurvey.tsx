@@ -156,63 +156,67 @@ const CreateSurvey = () => {
 
 export default CreateSurvey;
 
+// 
 const styles = StyleSheet.create({
   formWrapper: {
-  backgroundColor: '#262626',
-  borderRadius: 12,
-  padding: 16,
-  marginHorizontal: 6,
-  borderWidth: 1,
-  borderColor: '#333333',
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.3,
-  shadowRadius: 4,
-  elevation: 4,
-},
+    backgroundColor: '#fafafa',
+    borderRadius: 12,
+    padding: 16,
+    marginHorizontal: 6,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
+  },
   pickerWrapper: {
     borderRadius: 15,
     borderWidth: 1,
     overflow: 'hidden',
     width: 140,
     marginTop: 6,
-    backgroundColor: '#333',
+    backgroundColor: '#ffffff',
+    borderColor: '#bfbfbf',
   },
   container: {
     padding: 16,
   },
   label: {
-    color: 'white',
+    color: '#333', 
     fontSize: 16,
     fontWeight: '600',
     marginTop: 12,
   },
   input: {
     borderWidth: 1,
-    color: 'white',
+    color: '#333',
     borderColor: '#ccc',
     borderRadius: 8,
     padding: 10,
     marginTop: 6,
+    backgroundColor: '#fff',
   },
   picker: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 15, 
-    color: 'white',
-    backgroundColor: '#333',
+    color: '#333',
+    backgroundColor: '#fff',
     overflow: 'hidden',
   },
   addBtn: {
     marginTop: 12,
     padding: 12,
-    backgroundColor: '#eee',
+    backgroundColor: '#e0e0e0',
     borderRadius: 8,
     alignItems: 'center',
   },
   addBtnText: {
     fontSize: 16,
     fontWeight: '500',
+    color: '#333',
   },
   publishBtn: {
     marginTop: 20,
@@ -255,5 +259,6 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: '600',
+    color: '#000',
   },
 });

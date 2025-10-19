@@ -1,8 +1,10 @@
 import ScreenWrapper from '@/components/ScreenWrapper';
 import { colors } from '@/constants/theme';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
+import * as Icons from 'phosphor-react-native';
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AdminSurveyCard } from '../../components/AdminSurveyCard';
 import { firestore as db } from '../../config/firebase';
 
@@ -15,17 +17,18 @@ interface Survey {
   totalVotes: number;
 }
 
-const SurveyHistory = () => {
+const activeSurveys = () => {
   const [surveys, setSurveys] = useState<Survey[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchExpiredSurveys = async () => {
+  const fetchActiveSurveys = async () => {
     try {
       setLoading(true);
       const now = new Date();
       const surveysQuery = query(
         collection(db, 'surveys'),
-        where('endDate', '<=', Timestamp.fromDate(now))
+        where('status', '==', 'active'),
+        where('endDate', '>', Timestamp.fromDate(now))
       );
       const querySnapshot = await getDocs(surveysQuery);
 
@@ -46,26 +49,29 @@ const SurveyHistory = () => {
       }
       setSurveys(fetchedSurveys);
     } catch (err: any) {
-      Alert.alert('Greška', 'Nije moguće učitati završene ankete: ' + err.message);
+      Alert.alert('Greška', 'Nije moguće učitati ankete: ' + err.message);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchExpiredSurveys();
+    fetchActiveSurveys();
   }, []);
 
   return (
     <ScreenWrapper>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Završene Ankete</Text>
+        <Text style={styles.headerText}>Aktivne Ankete</Text>
+        <TouchableOpacity style={styles.iconRight} onPress={(fetchActiveSurveys)}>
+          <Icons.ArrowsClockwiseIcon size={24} color="black" />
+        </TouchableOpacity>
       </View>
       <ScrollView style={styles.container}>
         {loading ? (
           <Text style={styles.loadingText}>Učitavanje...</Text>
         ) : surveys.length === 0 ? (
-          <Text style={styles.noSurveysText}>Nema zavrsenih anketa</Text>
+          <Text style={styles.noSurveysText}>Nema aktivnih anketa</Text>
         ) : (
           surveys.map(survey => (
             <AdminSurveyCard
@@ -76,8 +82,7 @@ const SurveyHistory = () => {
               options={survey.options}
               optionsCount={survey.optionsCount}
               totalVotes={survey.totalVotes}
-              isDeletable = {true}
-              onDelete={fetchExpiredSurveys}
+              isDeletable = {false}
             />
           ))
         )}
@@ -86,41 +91,72 @@ const SurveyHistory = () => {
   );
 };
 
-export default SurveyHistory;
+export default activeSurveys;
 
 const styles = StyleSheet.create({
   header: {
-
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    // backgroundColor: '#a3e635', 
-    backgroundColor: colors.primary, 
-    borderBottomWidth: 2,
-    borderBottomColor: '#95d431ff', 
+  height: 70,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: colors.primary,
+  borderBottomWidth: 2,
+  borderBottomColor: colors.primaryShadow,
+  position: 'relative',
   },
   headerText: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#000000', 
+  },
+  iconRight: {
+    position: "absolute",
+    right: 16,  
+    top: "50%",
+    transform: [{ translateY: -12 }], 
+  },
+  iconLeft: {
+    position: 'absolute',
+    left: 16,
+    top: '50%',
+    transform: [{ translateY: -12 }],
   },
   container: {
     flex: 1,
     paddingLeft: 16,
     paddingRight: 16,
-    backgroundColor: '#ffffffff', 
   },
   loadingText: {
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
-    color: '#E0E0E0', 
+    color: 'white',
   },
   noSurveysText: {
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
-    color: '#E0E0E0',
+    color: 'white',
   },
+  logoutCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#262626',
+    padding: 14,
+    marginHorizontal: 16,
+    marginVertical: 16,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#a3e635',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  logoutText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#E0E0E0',
+    marginLeft: 8,
+  }
 });

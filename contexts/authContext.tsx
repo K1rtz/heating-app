@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<{children : React.ReactNode}> = ({children})
                         router.replace("/(admin)/home");
 
                     }else{
-                        router.replace("/(tabs)/surveys");
+                        router.replace("/(tabs)/home");
                     }
                 }
             }
